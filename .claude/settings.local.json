@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh auth *)",
+      "WebFetch(domain:github.com)",
+      "Bash(Remove-Item \"c:\\\\praticamais\\\\drizzle.config.json\" -Force)"
+    ]
+  }
+}
