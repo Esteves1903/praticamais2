@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
+
+export const dynamic = "force-dynamic";
 import { agendamentos, horarios } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 
