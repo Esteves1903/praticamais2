@@ -33,7 +33,7 @@ export default function Home() {
 
       {/* ─── HERO ─── */}
       <section className="hero">
-        <div className="hero-badge">🎓 Porto · 5º ao 12º ano</div>
+        <div className="hero-badge"> 5º ao 12º ano</div>
         <h1>Domina as notas,<br />conquista o teu futuro.</h1>
         <p>Apoio escolar personalizado com estudantes do ISEP e da FEP. Aulas online adaptadas ao teu ritmo.</p>
         <div className="hero-ctas">
@@ -69,17 +69,17 @@ export default function Home() {
         </div>
         <div className="sobre-grid">
           <div className="sobre-card fade-in">
-            <div className="sobre-icon">🎓</div>
+            
             <h3>Quem Somos</h3>
             <p>O Pratica+ é formado por estudantes do ISEP e da FEP que acreditam que a educação deve ser clara, direta e acessível. Mais do que explicadores, somos mentores que falam a mesma língua dos alunos.</p>
           </div>
           <div className="sobre-card fade-in">
-            <div className="sobre-icon">🎯</div>
+            
             <h3>Missão</h3>
             <p>A nossa missão é atingir o sucesso escolar, oferecendo um acompanhamento de alta qualidade que transforma dificuldades em confiança e resultados nos exames nacionais.</p>
           </div>
           <div className="sobre-card fade-in">
-            <div className="sobre-icon">⚡</div>
+            
             <h3>Valores</h3>
             <p>Baseamo-nos no rigor científico, na empatia com o aluno e na prática constante. Acreditamos que não há alunos maus, apenas métodos que precisam de ser ajustados.</p>
           </div>
@@ -346,7 +346,7 @@ export default function Home() {
             <div className="logo-text">Pratica<span className="logo-plus">+</span></div>
             <p className="footer-desc">Apoio escolar personalizado do 5º ao 12º ano no Porto. Estamos aqui para ajudar-te a conquistar os teus objetivos académicos.</p>
             <div className="footer-social">
-              <a href="https://wa.me/351960000000" className="social-link" target="_blank" rel="noopener">💬</a>
+              <a href="https://wa.me/351919761389" className="social-link" target="_blank" rel="noopener">💬</a>
               <a href="#" className="social-link">📷</a>
               <a href="#" className="social-link">💼</a>
             </div>
@@ -361,19 +361,19 @@ export default function Home() {
           </div>
           <div className="footer-col">
             <h4>Contacto</h4>
-            <a href="https://wa.me/351960000000" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="https://wa.me/351919761389" target="_blank" rel="noopener">WhatsApp</a>
             <a href="mailto:praticamais@gmail.com">Email</a>
             <a href="#" onClick={(e) => e.preventDefault()}>Porto, Portugal</a>
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© 2025 Pratica+. Todos os direitos reservados.</p>
+          <p>© 2026 Pratica+. Todos os direitos reservados.</p>
           <p>Feito com ❤️ por estudantes do ISEP & FEP</p>
         </div>
       </footer>
 
       {/* ─── FLOATING BUTTONS ─── */}
-      <a href="https://wa.me/351960000000" className="whatsapp-float" target="_blank" rel="noopener" title="Fala connosco no WhatsApp">💬</a>
+      <a href="https://wa.me/351919761389" className="whatsapp-float" target="_blank" rel="noopener" title="Fala connosco no WhatsApp">💬</a>
       <button id="backToTop" aria-label="Voltar ao topo">↑</button>
 
       {/* ─── BOOKING MODAL ─── */}
@@ -498,7 +498,7 @@ export default function Home() {
               <p className="success-text">A tua sessão foi marcada com sucesso para:</p>
               <p className="success-text success-slot" id="successSlot"></p>
               <p className="success-text" style={{ marginTop: "16px" }}>Vais receber a confirmação em breve. Qualquer dúvida, contacta-nos via WhatsApp.</p>
-              <a href="https://wa.me/351960000000" className="btn-primary" style={{ marginTop: "24px", textDecoration: "none" }} target="_blank" rel="noopener">
+              <a href="https://wa.me/351919761389" className="btn-primary" style={{ marginTop: "24px", textDecoration: "none" }} target="_blank" rel="noopener">
                 💬 Confirmar via WhatsApp
               </a>
             </div>
