@@ -1,23 +1,20 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db";
-import { horarios } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { supabase } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const slots = await db
-      .select()
-      .from(horarios)
-      .where(eq(horarios.disponivel, true))
-      .orderBy(horarios.slot);
+    const { data, error } = await supabase
+      .from("horarios")
+      .select("*")
+      .eq("disponivel", true)
+      .order("slot");
 
-    return NextResponse.json(slots);
+    if (error) throw error;
+    return NextResponse.json(data);
   } catch (error) {
-    console.error("Erro ao buscar horários:", error);
     const msg = error instanceof Error ? error.message : String(error);
-    const cause = (error as any)?.cause?.message ?? (error as any)?.cause ?? null;
-    return NextResponse.json({ error: "Erro interno", detail: msg, cause }, { status: 500 });
+    return NextResponse.json({ error: "Erro interno", detail: msg }, { status: 500 });
   }
 }
