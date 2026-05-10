@@ -556,6 +556,9 @@ export default function Home() {
       {/* ─── CLIENT SCRIPTS ─── */}
       <script dangerouslySetInnerHTML={{ __html: `
         (function() {
+          function $(id) { return document.getElementById(id); }
+          function on(id, ev, fn) { const el = $(id); if (el) el.addEventListener(ev, fn); }
+
           // ── State
           let allSlots = [];
           let selectedSlot = null;
@@ -714,14 +717,14 @@ export default function Home() {
           }
 
           // ── Week navigation
-          document.getElementById('prevWeek').addEventListener('click', () => {
+          on('prevWeek', 'click', () => {
             if (currentWeekOffset > 0) {
               currentWeekOffset--;
               selectedDayIndex = null;
               renderWeek();
             }
           });
-          document.getElementById('nextWeek').addEventListener('click', () => {
+          on('nextWeek', 'click', () => {
             if (currentWeekOffset < 3) {
               currentWeekOffset++;
               selectedDayIndex = null;
@@ -729,14 +732,15 @@ export default function Home() {
             }
           });
 
-          document.getElementById('clearSlot').addEventListener('click', () => {
+          on('clearSlot', 'click', () => {
             selectedSlot = null;
-            document.getElementById('selectedSlotDisplay').style.display = 'none';
+            const ssd = $('selectedSlotDisplay');
+            if (ssd) ssd.style.display = 'none';
             document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
           });
 
           // ── Email verification
-          document.getElementById('f-email').addEventListener('input', () => {
+          on('f-email', 'input', () => {
             if (emailVerificado) {
               emailVerificado = false;
               const btn = document.getElementById('btnEnviarCodigo');
@@ -749,7 +753,7 @@ export default function Home() {
             }
           });
 
-          document.getElementById('btnEnviarCodigo').addEventListener('click', async () => {
+          on('btnEnviarCodigo', 'click', async () => {
             const email = document.getElementById('f-email').value.trim();
             if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
               document.getElementById('emailVerifMsg').textContent = 'Insere um email válido primeiro.';
@@ -785,7 +789,7 @@ export default function Home() {
             }
           });
 
-          document.getElementById('btnConfirmarCodigo').addEventListener('click', async () => {
+          on('btnConfirmarCodigo', 'click', async () => {
             const email = document.getElementById('f-email').value.trim();
             const code = document.getElementById('f-codigo').value.trim();
             const msgEl = document.getElementById('emailVerifMsg');
@@ -816,8 +820,8 @@ export default function Home() {
           });
 
           // Allow confirming code with Enter key
-          document.getElementById('f-codigo').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') { e.preventDefault(); document.getElementById('btnConfirmarCodigo').click(); }
+          on('f-codigo', 'keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); const b = $('btnConfirmarCodigo'); if (b) b.click(); }
           });
 
           // ── Filter ano options based on nivel
@@ -836,7 +840,7 @@ export default function Home() {
             if (prev && anoSelect.options[anoSelect.selectedIndex]?.hidden) anoSelect.value = '';
           }
 
-          document.getElementById('f-nivel').addEventListener('change', (e) => {
+          on('f-nivel', 'change', (e) => {
             updateAnoOptions(e.target.value);
           });
 
@@ -872,10 +876,8 @@ export default function Home() {
             document.body.style.overflow = '';
           }
 
-          document.getElementById('modalClose').addEventListener('click', closeModal);
-          document.getElementById('modalOverlay').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('modalOverlay')) closeModal();
-          });
+          on('modalClose', 'click', closeModal);
+          on('modalOverlay', 'click', (e) => { if (e.target === $('modalOverlay')) closeModal(); });
           document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
           // Trigger buttons
@@ -889,7 +891,7 @@ export default function Home() {
           });
 
           // ── Form submit
-          document.getElementById('agendamentoForm').addEventListener('submit', async (e) => {
+          on('agendamentoForm', 'submit', async (e) => {
             e.preventDefault();
             const errorEl = document.getElementById('formError');
             errorEl.classList.remove('visible');
@@ -970,17 +972,17 @@ export default function Home() {
           });
 
           // ── Preços toggle
-          document.getElementById('btn-basico').addEventListener('click', () => {
-            document.getElementById('btn-basico').classList.add('active');
-            document.getElementById('btn-secundario').classList.remove('active');
-            document.getElementById('panel-basico').classList.add('active');
-            document.getElementById('panel-secundario').classList.remove('active');
+          on('btn-basico', 'click', () => {
+            $('btn-basico').classList.add('active');
+            $('btn-secundario').classList.remove('active');
+            $('panel-basico').classList.add('active');
+            $('panel-secundario').classList.remove('active');
           });
-          document.getElementById('btn-secundario').addEventListener('click', () => {
-            document.getElementById('btn-secundario').classList.add('active');
-            document.getElementById('btn-basico').classList.remove('active');
-            document.getElementById('panel-secundario').classList.add('active');
-            document.getElementById('panel-basico').classList.remove('active');
+          on('btn-secundario', 'click', () => {
+            $('btn-secundario').classList.add('active');
+            $('btn-basico').classList.remove('active');
+            $('panel-secundario').classList.add('active');
+            $('panel-basico').classList.remove('active');
           });
 
           // ── FAQ Accordion
@@ -1003,18 +1005,15 @@ export default function Home() {
 
           // ── Back to top
           window.addEventListener('scroll', () => {
-            const btn = document.getElementById('backToTop');
+            const btn = $('backToTop');
+            if (!btn) return;
             if (window.scrollY > 400) btn.classList.add('visible');
             else btn.classList.remove('visible');
           });
-          document.getElementById('backToTop').addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          });
+          on('backToTop', 'click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
           // ── Hamburger menu
-          document.getElementById('hamburger').addEventListener('click', () => {
-            document.getElementById('mobileNav').classList.toggle('open');
-          });
+          on('hamburger', 'click', () => { const n = $('mobileNav'); if (n) n.classList.toggle('open'); });
           document.querySelectorAll('.mobile-nav a').forEach(a => {
             a.addEventListener('click', () => {
               document.getElementById('mobileNav').classList.remove('open');
