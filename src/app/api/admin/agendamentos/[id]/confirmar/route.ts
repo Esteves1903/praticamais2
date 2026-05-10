@@ -41,7 +41,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   // Send confirmation email
   try {
     await getResend().emails.send({
-      from: "Pratica+ <noreply@praticamais2.vercel.app>",
+      from: "Pratica+ <noreply@praticamais.pt>",
       to: ag.email,
       subject: "✅ Sessão Confirmada — Pratica+",
       html: `
