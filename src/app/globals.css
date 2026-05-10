@@ -247,6 +247,8 @@ section { padding: 100px 5%; }
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .sobre-card::before {
@@ -276,7 +278,7 @@ section { padding: 100px 5%; }
 }
 
 .sobre-card h3 { font-size: 1.3rem; font-weight: 800; color: var(--dark); margin-bottom: 12px; }
-.sobre-card p { color: #64748b; line-height: 1.7; font-size: 0.95rem; }
+.sobre-card p { color: #64748b; line-height: 1.7; font-size: 0.95rem; flex: 1; }
 
 /* ─── DISCIPLINAS ─── */
 .disciplinas-grid {
