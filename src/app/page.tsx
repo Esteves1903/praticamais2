@@ -724,6 +724,26 @@ export default function Home() {
             document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
           });
 
+          // ── Filter ano options based on nivel
+          function updateAnoOptions(nivel) {
+            const anoSelect = document.getElementById('f-ano');
+            const prev = anoSelect.value;
+            const basicoYears = ['5º ano','6º ano','7º ano','8º ano','9º ano'];
+            const secundarioYears = ['10º ano','11º ano','12º ano'];
+            Array.from(anoSelect.options).forEach(opt => {
+              if (!opt.value) return; // keep placeholder
+              if (nivel === 'basico') opt.hidden = !basicoYears.includes(opt.value);
+              else if (nivel === 'secundario') opt.hidden = !secundarioYears.includes(opt.value);
+              else opt.hidden = false;
+            });
+            // reset if current value is now hidden
+            if (prev && anoSelect.options[anoSelect.selectedIndex]?.hidden) anoSelect.value = '';
+          }
+
+          document.getElementById('f-nivel').addEventListener('change', (e) => {
+            updateAnoOptions(e.target.value);
+          });
+
           // ── Modal
           function openModal(nivel) {
             const overlay = document.getElementById('modalOverlay');
@@ -731,6 +751,7 @@ export default function Home() {
             document.body.style.overflow = 'hidden';
             if (nivel) {
               document.getElementById('f-nivel').value = nivel;
+              updateAnoOptions(nivel);
             }
             loadSlots();
             // reset form & success
