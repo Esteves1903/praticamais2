@@ -446,6 +446,32 @@ export default function Home() {
               </div>
               <div className="form-row">
                 <div className="form-group">
+                  <label className="form-label">Ano escolar <span>*</span></label>
+                  <select className="form-select" id="f-ano" required>
+                    <option value="">-- Seleciona --</option>
+                    <option value="5º ano">5º ano</option>
+                    <option value="6º ano">6º ano</option>
+                    <option value="7º ano">7º ano</option>
+                    <option value="8º ano">8º ano</option>
+                    <option value="9º ano">9º ano</option>
+                    <option value="10º ano">10º ano</option>
+                    <option value="11º ano">11º ano</option>
+                    <option value="12º ano">12º ano</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Professor <span>*</span></label>
+                  <select className="form-select" id="f-professor" required>
+                    <option value="">-- Seleciona --</option>
+                    <option value="José Mário">José Mário (Matemática, Física, FQ)</option>
+                    <option value="Diogo Magalhães">Diogo Magalhães (Matemática, Física, FQ)</option>
+                    <option value="Manuel Silva">Manuel Silva (Economia, MACS, Inglês)</option>
+                    <option value="Sem preferência">Sem preferência</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
                   <label className="form-label">Disciplina <span>*</span></label>
                   <select className="form-select" id="f-disciplina" required>
                     <option value="">-- Seleciona --</option>
@@ -745,11 +771,13 @@ export default function Home() {
             const email = document.getElementById('f-email').value.trim();
             const telefone = document.getElementById('f-telefone').value.trim();
             const nivel = document.getElementById('f-nivel').value;
+            const ano_escolar = document.getElementById('f-ano').value;
+            const professor = document.getElementById('f-professor').value;
             const disciplina = document.getElementById('f-disciplina').value;
             const tipo = document.getElementById('f-tipo').value;
             const notas = document.getElementById('f-notas').value.trim();
 
-            if (!nome || !email || !telefone || !nivel || !disciplina || !tipo) {
+            if (!nome || !email || !telefone || !nivel || !ano_escolar || !disciplina || !tipo) {
               errorEl.textContent = '⚠️ Por favor preenche todos os campos obrigatórios.';
               errorEl.classList.add('visible');
               return;
@@ -770,7 +798,7 @@ export default function Home() {
               const res = await fetch('/api/agendar', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nome, email, telefone, nivel, disciplina, slot: selectedSlot, tipo, notas })
+                body: JSON.stringify({ nome, email, telefone, nivel, disciplina, slot: selectedSlot, tipo, notas, professor, ano_escolar })
               });
 
               const data = await res.json();

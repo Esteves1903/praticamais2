@@ -6,9 +6,9 @@ export const dynamic = "force-dynamic";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { nome, email, telefone, nivel, disciplina, slot, tipo, notas } = body;
+    const { nome, email, telefone, nivel, disciplina, slot, tipo, notas, professor, ano_escolar } = body;
 
-    if (!nome || !email || !telefone || !nivel || !disciplina || !slot || !tipo) {
+    if (!nome || !email || !telefone || !nivel || !disciplina || !slot || !tipo || !ano_escolar) {
       return NextResponse.json({ error: "Todos os campos obrigatórios devem ser preenchidos." }, { status: 400 });
     }
 
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     // Create the booking
     const { data: newAgendamento, error: insertError } = await supabase
       .from("agendamentos")
-      .insert({ nome, email, telefone, nivel, disciplina, slot, tipo, notas: notas || "" })
+      .insert({ nome, email, telefone, nivel, disciplina, slot, tipo, notas: notas || "", professor: professor || "", ano_escolar: ano_escolar || "" })
       .select()
       .single();
 

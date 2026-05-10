@@ -6,6 +6,7 @@ type Agendamento = {
   id: number; nome: string; email: string; telefone: string;
   nivel: string; disciplina: string; slot: string; tipo: string;
   notas: string; confirmado: boolean; criado_em: string;
+  professor: string; ano_escolar: string;
 };
 type Slot = { id: number; slot: string; disponivel: boolean; agendamento_id: number | null };
 
@@ -165,7 +166,7 @@ export default function Dashboard() {
                       <tr key={a.id}>
                         <td style={styles.td}>
                           <div style={{ fontWeight: 600 }}>{a.nome}</div>
-                          <div style={{ fontSize: 12, color: "#64748b" }}>{a.nivel}</div>
+                          <div style={{ fontSize: 12, color: "#64748b" }}>{a.nivel}{a.ano_escolar ? ` · ${a.ano_escolar}` : ""}</div>
                           {a.notas && <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>"{a.notas}"</div>}
                         </td>
                         <td style={styles.td}>
@@ -175,6 +176,7 @@ export default function Dashboard() {
                         <td style={styles.td}>
                           <div>{DISCIPLINAS[a.disciplina] ?? a.disciplina}</div>
                           <div style={{ fontSize: 12, color: "#64748b" }}>{TIPOS[a.tipo] ?? a.tipo}</div>
+                          {a.professor && a.professor !== "sem-preferencia" && <div style={{ fontSize: 12, color: "#2563eb", marginTop: 2 }}>Prof. {a.professor}</div>}
                         </td>
                         <td style={styles.td}>{formatSlot(a.slot)}</td>
                         <td style={styles.td}><span style={styles.badge(a.confirmado)}>{a.confirmado ? "✓ Confirmado" : "⏳ Pendente"}</span></td>
