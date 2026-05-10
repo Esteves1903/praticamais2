@@ -250,6 +250,7 @@ export default function Home() {
             <div className="member-discs">
               <span className="member-disc">📐 Matemática</span>
               <span className="member-disc">⚛️ Física</span>
+              <span className="member-disc">⚛️ FQ</span>
             </div>
           </div>
 
@@ -273,7 +274,9 @@ export default function Home() {
             <div className="member-role">Engenharia · Explicador</div>
             <div className="member-discs">
               <span className="member-disc">📐 Matemática</span>
+              <span className="member-disc">⚛️ Física</span>
               <span className="member-disc">⚛️ FQ</span>
+
             </div>
           </div>
 
