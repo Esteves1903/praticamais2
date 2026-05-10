@@ -493,14 +493,11 @@ export default function Home() {
 
             {/* Success */}
             <div className="success-view" id="successView">
-              <div className="success-icon">🎉</div>
-              <div className="success-title">Agendamento Confirmado!</div>
-              <p className="success-text">A tua sessão foi marcada com sucesso para:</p>
+              <div className="success-icon">📩</div>
+              <div className="success-title">Pedido Recebido!</div>
+              <p className="success-text">O teu pedido de sessão foi registado para:</p>
               <p className="success-text success-slot" id="successSlot"></p>
-              <p className="success-text" style={{ marginTop: "16px" }}>Vais receber a confirmação em breve. Qualquer dúvida, contacta-nos via WhatsApp.</p>
-              <a href="https://wa.me/351919761389" className="btn-primary" style={{ marginTop: "24px", textDecoration: "none" }} target="_blank" rel="noopener">
-                💬 Confirmar via WhatsApp
-              </a>
+              <p className="success-text" style={{ marginTop: "16px" }}>Um professor irá confirmar em breve e receberás um email de confirmação. Qualquer dúvida contacta-nos via WhatsApp.</p>
             </div>
           </div>
         </div>
