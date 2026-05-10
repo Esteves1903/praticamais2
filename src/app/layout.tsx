@@ -5,6 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Pratica+ | Apoio Escolar Personalizado",
   description: "Apoio escolar do 5º ao 12º ano no Porto. Matemática, Física, Economia, MACS e Inglês. Aulas online com professores do ISEP e da FEP.",
+  viewport: "width=device-width, initial-scale=1",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

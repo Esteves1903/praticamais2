@@ -28,7 +28,7 @@ export default function Home() {
         <a href="#precos">Preços</a>
         <a href="#equipa">Equipa</a>
         <a href="#faq">FAQ</a>
-        <a href="#" className="btn-nav-mobile">📅 Agendar Explicação</a>
+        <a href="#" className="btn-nav-mobile" id="mobile-agendar">📅 Agendar Explicação</a>
       </div>
 
       {/* ─── HERO ─── */}
@@ -427,7 +427,17 @@ export default function Home() {
                 </div>
                 <div className="form-group">
                   <label className="form-label">Email <span>*</span></label>
-                  <input type="email" className="form-input" id="f-email" placeholder="email@exemplo.com" required />
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <input type="email" className="form-input" id="f-email" placeholder="email@exemplo.com" required style={{ flex: 1 }} />
+                    <button type="button" id="btnEnviarCodigo" style={{ padding: "0 14px", background: "#2563eb", color: "#fff", border: "none", borderRadius: "10px", fontSize: "13px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>Verificar</button>
+                  </div>
+                  <div id="emailVerifArea" style={{ display: "none", marginTop: "10px" }}>
+                    <div style={{ display: "flex", gap: "8px" }}>
+                      <input type="text" id="f-codigo" placeholder="Código de 6 dígitos" maxLength={6} inputMode="numeric" style={{ flex: 1, padding: "10px 14px", border: "1.5px solid #e2e8f0", borderRadius: "10px", fontSize: "15px", letterSpacing: "4px", textAlign: "center" }} />
+                      <button type="button" id="btnConfirmarCodigo" style={{ padding: "0 14px", background: "#f1f5f9", color: "#1e293b", border: "1.5px solid #e2e8f0", borderRadius: "10px", fontSize: "13px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>Confirmar</button>
+                    </div>
+                    <div id="emailVerifMsg" style={{ fontSize: "13px", marginTop: "6px" }}></div>
+                  </div>
                 </div>
               </div>
               <div className="form-row">
@@ -551,6 +561,7 @@ export default function Home() {
           let selectedSlot = null;
           let currentWeekOffset = 0;
           let selectedDayIndex = null;
+          let emailVerificado = false;
           const DAYS_PT = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
           const MONTHS_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 
@@ -724,6 +735,91 @@ export default function Home() {
             document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
           });
 
+          // ── Email verification
+          document.getElementById('f-email').addEventListener('input', () => {
+            if (emailVerificado) {
+              emailVerificado = false;
+              const btn = document.getElementById('btnEnviarCodigo');
+              btn.textContent = 'Verificar';
+              btn.style.background = '#2563eb';
+              btn.style.color = '#fff';
+              btn.disabled = false;
+              document.getElementById('emailVerifArea').style.display = 'none';
+              document.getElementById('emailVerifMsg').textContent = '';
+            }
+          });
+
+          document.getElementById('btnEnviarCodigo').addEventListener('click', async () => {
+            const email = document.getElementById('f-email').value.trim();
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+              document.getElementById('emailVerifMsg').textContent = 'Insere um email válido primeiro.';
+              document.getElementById('emailVerifMsg').style.color = '#dc2626';
+              document.getElementById('emailVerifArea').style.display = 'block';
+              return;
+            }
+            const btn = document.getElementById('btnEnviarCodigo');
+            btn.disabled = true;
+            btn.textContent = 'A enviar...';
+            try {
+              const res = await fetch('/api/verificar-email/enviar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+              });
+              if (res.ok) {
+                document.getElementById('emailVerifArea').style.display = 'block';
+                document.getElementById('emailVerifMsg').textContent = 'Código enviado! Verifica o teu email (e a pasta de spam).';
+                document.getElementById('emailVerifMsg').style.color = '#2563eb';
+                btn.textContent = 'Reenviar';
+                btn.disabled = false;
+              } else {
+                document.getElementById('emailVerifMsg').textContent = 'Erro ao enviar. Tenta novamente.';
+                document.getElementById('emailVerifMsg').style.color = '#dc2626';
+                document.getElementById('emailVerifArea').style.display = 'block';
+                btn.textContent = 'Verificar';
+                btn.disabled = false;
+              }
+            } catch {
+              btn.textContent = 'Verificar';
+              btn.disabled = false;
+            }
+          });
+
+          document.getElementById('btnConfirmarCodigo').addEventListener('click', async () => {
+            const email = document.getElementById('f-email').value.trim();
+            const code = document.getElementById('f-codigo').value.trim();
+            const msgEl = document.getElementById('emailVerifMsg');
+            if (code.length !== 6) {
+              msgEl.textContent = 'O código tem 6 dígitos.';
+              msgEl.style.color = '#dc2626';
+              return;
+            }
+            const res = await fetch('/api/verificar-email/confirmar', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, code })
+            });
+            const data = await res.json();
+            if (data.valid) {
+              emailVerificado = true;
+              document.getElementById('emailVerifArea').style.display = 'none';
+              msgEl.textContent = '';
+              const btn = document.getElementById('btnEnviarCodigo');
+              btn.textContent = '✓ Verificado';
+              btn.style.background = '#dcfce7';
+              btn.style.color = '#16a34a';
+              btn.disabled = true;
+            } else {
+              msgEl.textContent = '✗ Código inválido ou expirado. Pede um novo código.';
+              msgEl.style.color = '#dc2626';
+            }
+          });
+
+          // Allow confirming code with Enter key
+          document.getElementById('f-codigo').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); document.getElementById('btnConfirmarCodigo').click(); }
+          });
+
           // ── Filter ano options based on nivel
           function updateAnoOptions(nivel) {
             const anoSelect = document.getElementById('f-ano');
@@ -759,6 +855,16 @@ export default function Home() {
             document.getElementById('successView').classList.remove('visible');
             document.getElementById('formError').classList.remove('visible');
             document.getElementById('formError').textContent = '';
+            // reset email verification
+            emailVerificado = false;
+            const verBtn = document.getElementById('btnEnviarCodigo');
+            verBtn.textContent = 'Verificar';
+            verBtn.style.background = '#2563eb';
+            verBtn.style.color = '#fff';
+            verBtn.disabled = false;
+            document.getElementById('emailVerifArea').style.display = 'none';
+            document.getElementById('emailVerifMsg').textContent = '';
+            document.getElementById('f-codigo').value = '';
           }
 
           function closeModal() {
@@ -773,7 +879,7 @@ export default function Home() {
           document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
           // Trigger buttons
-          ['nav-agendar','hero-agendar','cta-agendar','agendar-basico','agendar-secundario'].forEach(id => {
+          ['nav-agendar','hero-agendar','cta-agendar','agendar-basico','agendar-secundario','mobile-agendar'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.addEventListener('click', (e) => {
               e.preventDefault();
@@ -800,6 +906,20 @@ export default function Home() {
 
             if (!nome || !email || !telefone || !nivel || !ano_escolar || !disciplina || !tipo) {
               errorEl.textContent = '⚠️ Por favor preenche todos os campos obrigatórios.';
+              errorEl.classList.add('visible');
+              return;
+            }
+
+            if (!emailVerificado) {
+              errorEl.textContent = '⚠️ Por favor verifica o teu email antes de submeter.';
+              errorEl.classList.add('visible');
+              document.getElementById('btnEnviarCodigo').scrollIntoView({ behavior: 'smooth', block: 'center' });
+              return;
+            }
+
+            const telefoneLimpo = telefone.replace(/\s/g, '');
+            if (!/^(\+351)?[926]\d{8}$/.test(telefoneLimpo)) {
+              errorEl.textContent = '⚠️ Número de telefone inválido. Exemplo: +351 912 345 678 ou 912345678.';
               errorEl.classList.add('visible');
               return;
             }
