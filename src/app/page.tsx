@@ -110,8 +110,9 @@ export default function Home() {
             <div className="disc-icon">🔬</div>
             <div className="disc-name">Física</div>
             <div className="disc-anos">12º ano</div>
-            <span className="disc-badge fis">FQ</span>
+            <span className="disc-badge fis">F</span>
           </div>
+
           <div className="disciplina-card fade-in">
             <div className="disc-icon">📊</div>
             <div className="disc-name">Economia</div>
@@ -447,6 +448,7 @@ export default function Home() {
                     <option value="">-- Seleciona --</option>
                     <option value="Matemática">📐 Matemática</option>
                     <option value="Física e Química">⚛️ Física e Química</option>
+                    <option value="Física">🔬 Física (12º ano)</option>
                     <option value="Economia">📊 Economia</option>
                     <option value="Inglês">🌍 Inglês</option>
                     <option value="MACS">📈 MACS</option>
