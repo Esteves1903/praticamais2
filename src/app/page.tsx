@@ -372,7 +372,7 @@ export default function Home() {
           <div className="footer-col">
             <h4>Contacto</h4>
             <a href="https://wa.me/351919761389" target="_blank" rel="noopener">WhatsApp</a>
-            <a href="mailto:praticamais@gmail.com">Email</a>
+            <a href="mailto:pratica.mais.26@gmail.com">Email</a>
             <a href="#" onClick={(e) => e.preventDefault()}>Porto, Portugal</a>
           </div>
         </div>
