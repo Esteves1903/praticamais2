@@ -755,7 +755,7 @@ export default function Home() {
 
           on('btnEnviarCodigo', 'click', async () => {
             const email = document.getElementById('f-email').value.trim();
-            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            if (!email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
               document.getElementById('emailVerifMsg').textContent = 'Insere um email válido primeiro.';
               document.getElementById('emailVerifMsg').style.color = '#dc2626';
               document.getElementById('emailVerifArea').style.display = 'block';
@@ -919,8 +919,8 @@ export default function Home() {
               return;
             }
 
-            const telefoneLimpo = telefone.replace(/\s/g, '');
-            if (!/^(\+351)?[926]\d{8}$/.test(telefoneLimpo)) {
+            const telefoneLimpo = telefone.replace(/\\s/g, '');
+            if (!/^(\\+351)?[926]\\d{8}$/.test(telefoneLimpo)) {
               errorEl.textContent = '⚠️ Número de telefone inválido. Exemplo: +351 912 345 678 ou 912345678.';
               errorEl.classList.add('visible');
               return;
