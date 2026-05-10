@@ -37,7 +37,7 @@ export default function Home() {
         <h1>Domina as notas,<br />conquista o teu futuro.</h1>
         <p>Apoio escolar personalizado com estudantes do ISEP e da FEP. Aulas online adaptadas ao teu ritmo.</p>
         <div className="hero-ctas">
-          <a href="#" className="btn-primary" id="hero-agendar">📅 Agendar Sessão Grátis</a>
+          <a href="#" className="btn-primary" id="hero-agendar">📅 Agendar Sessão </a>
           <a href="#sobre" className="btn-secondary">Saber Mais →</a>
         </div>
         <div className="hero-stats">
@@ -103,7 +103,13 @@ export default function Home() {
           <div className="disciplina-card fade-in">
             <div className="disc-icon">⚛️</div>
             <div className="disc-name">Física e Química</div>
-            <div className="disc-anos">7º ao 12º ano</div>
+            <div className="disc-anos">7º ao 9º ano</div>
+            <span className="disc-badge fis">FQ</span>
+          </div>
+          <div className="disciplina-card fade-in">
+            <div className="disc-icon">🔬</div>
+            <div className="disc-name">Física</div>
+            <div className="disc-anos">12º ano</div>
             <span className="disc-badge fis">FQ</span>
           </div>
           <div className="disciplina-card fade-in">
@@ -238,7 +244,7 @@ export default function Home() {
               />
             </div>
             <span className="member-tag tag-isep">ISEP</span>
-            <div className="member-name">Zé</div>
+            <div className="member-name">José Mário</div>
             <div className="member-role">Engenharia · Explicador</div>
             <div className="member-discs">
               <span className="member-disc">📐 Matemática</span>
@@ -262,7 +268,7 @@ export default function Home() {
               />
             </div>
             <span className="member-tag tag-isep">ISEP</span>
-            <div className="member-name">Diogo</div>
+            <div className="member-name">Diogo Magalhães</div>
             <div className="member-role">Engenharia · Explicador</div>
             <div className="member-discs">
               <span className="member-disc">📐 Matemática</span>
@@ -286,8 +292,8 @@ export default function Home() {
               />
             </div>
             <span className="member-tag tag-fep">FEP</span>
-            <div className="member-name">Manu</div>
-            <div className="member-role">Economia · Explicadora</div>
+            <div className="member-name">Manuel Silva</div>
+            <div className="member-role">Economia · Explicador</div>
             <div className="member-discs">
               <span className="member-disc">📊 Economia</span>
               <span className="member-disc">📈 MACS</span>
@@ -368,7 +374,10 @@ export default function Home() {
         </div>
         <div className="footer-bottom">
           <p>© 2026 Pratica+. Todos os direitos reservados.</p>
-          <p>Feito com ❤️ por estudantes do ISEP & FEP</p>
+          <p style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" as const }}>
+            <a href="/privacidade" style={{ color: "#94a3b8", textDecoration: "none" }}>Política de Privacidade</a>
+            <a href="/termos" style={{ color: "#94a3b8", textDecoration: "none" }}>Termos e Condições</a>
+          </p>
         </div>
       </footer>
 
