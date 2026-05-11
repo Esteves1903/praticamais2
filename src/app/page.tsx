@@ -353,7 +353,7 @@ export default function Home() {
         <div className="footer-grid">
           <div className="footer-brand">
             <div className="logo-text">Pratica<span className="logo-plus">+</span></div>
-            <p className="footer-desc">Apoio escolar personalizado do 5º ao 12º ano no Porto. Estamos aqui para ajudar-te a conquistar os teus objetivos académicos.</p>
+            <p className="footer-desc">Apoio escolar personalizado do 5º ao 12º ano. Estamos aqui para ajudar-te a conquistar os teus objetivos académicos.</p>
             <div className="footer-social">
               <a href="https://wa.me/351919761389" className="social-link" target="_blank" rel="noopener">💬</a>
               
@@ -371,7 +371,7 @@ export default function Home() {
             <h4>Contacto</h4>
             <a href="https://wa.me/351919761389" target="_blank" rel="noopener">WhatsApp</a>
             <a href="mailto:pratica.mais.26@gmail.com">Email</a>
-            <a href="#" onClick={(e) => e.preventDefault()}>Porto, Portugal</a>
+            
           </div>
         </div>
         <div className="footer-bottom">
