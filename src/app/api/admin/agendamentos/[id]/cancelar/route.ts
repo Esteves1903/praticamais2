@@ -23,6 +23,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   const { error } = await supabase.from("agendamentos").delete().eq("id", agendamentoId);
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    console.error("Erro ao cancelar agendamento:", error.message);
+    return NextResponse.json({ error: "Erro interno do servidor." }, { status: 500 });
+  }
   return NextResponse.json({ ok: true });
 }

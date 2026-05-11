@@ -8,6 +8,9 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
   }
   const { id } = await params;
   const { error } = await supabase.from("horarios").delete().eq("id", parseInt(id));
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    console.error("Erro ao eliminar slot:", error.message);
+    return NextResponse.json({ error: "Erro interno do servidor." }, { status: 500 });
+  }
   return NextResponse.json({ ok: true });
 }

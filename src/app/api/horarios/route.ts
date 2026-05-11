@@ -15,6 +15,7 @@ export async function GET() {
     return NextResponse.json(data);
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
-    return NextResponse.json({ error: "Erro interno", detail: msg }, { status: 500 });
+    console.error("Erro ao obter horários:", msg);
+    return NextResponse.json({ error: "Erro interno do servidor." }, { status: 500 });
   }
 }

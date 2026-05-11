@@ -7,6 +7,15 @@ function getResend() {
   return new Resend(process.env.RESEND_API_KEY);
 }
 
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+}
+
 function formatSlot(s: string) {
   const d = new Date(s);
   const dias = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
@@ -36,7 +45,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     .update({ confirmado: true })
     .eq("id", agendamentoId);
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    console.error("Erro ao confirmar agendamento:", error.message);
+    return NextResponse.json({ error: "Erro interno do servidor." }, { status: 500 });
+  }
 
   // Send confirmation email
   try {
@@ -53,11 +65,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
             <hr style="border:none;border-top:1px solid #e2e8f0;margin:16px 0"/>
             <div style="font-size:32px;margin-bottom:8px">✅</div>
             <h1 style="font-size:22px;color:#1e293b;margin:0 0 8px">Sessão Confirmada!</h1>
-            <p style="color:#64748b;margin:0 0 24px">Olá <strong>${ag.nome}</strong>, a tua sessão foi confirmada.</p>
+            <p style="color:#64748b;margin:0 0 24px">Olá <strong>${escapeHtml(ag.nome)}</strong>, a tua sessão foi confirmada.</p>
             <div style="background:#eff6ff;border-radius:12px;padding:20px;margin-bottom:24px">
               <div style="font-size:13px;color:#64748b;margin-bottom:4px">HORÁRIO</div>
               <div style="font-size:18px;font-weight:700;color:#1e293b">${formatSlot(ag.slot)}</div>
-              <div style="font-size:14px;color:#64748b;margin-top:8px">${ag.disciplina} · ${ag.tipo === "experimental" ? "Sessão Experimental (50% OFF)" : ag.tipo === "individual" ? "Aula Individual" : "Aula de Grupo"}</div>
+              <div style="font-size:14px;color:#64748b;margin-top:8px">${escapeHtml(ag.disciplina)} · ${ag.tipo === "experimental" ? "Sessão Experimental (50% OFF)" : ag.tipo === "individual" ? "Aula Individual" : "Aula de Grupo"}</div>
             </div>
             <p style="color:#64748b;font-size:14px">Vais receber o link da sessão online (Zoom/Meet) via WhatsApp antes da aula.</p>
             <p style="color:#94a3b8;font-size:13px;margin-top:24px">Qualquer dúvida, contacta-nos pelo WhatsApp: <a href="https://wa.me/351919761389" style="color:#2563eb">+351 919 761 389</a></p>

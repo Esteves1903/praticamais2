@@ -562,6 +562,7 @@ export default function Home() {
           let currentWeekOffset = 0;
           let selectedDayIndex = null;
           let emailVerificado = false;
+          let otpCodeVerificado = '';
           const DAYS_PT = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
           const MONTHS_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 
@@ -740,6 +741,7 @@ export default function Home() {
           on('f-email', 'input', () => {
             if (emailVerificado) {
               emailVerificado = false;
+              otpCodeVerificado = '';
               const btn = document.getElementById('btnEnviarCodigo');
               btn.textContent = 'Verificar';
               btn.style.background = '#2563eb';
@@ -803,6 +805,7 @@ export default function Home() {
             const data = await res.json();
             if (data.valid) {
               emailVerificado = true;
+              otpCodeVerificado = code;
               document.getElementById('emailVerifArea').style.display = 'none';
               msgEl.textContent = '';
               const btn = document.getElementById('btnEnviarCodigo');
@@ -858,6 +861,7 @@ export default function Home() {
             document.getElementById('formError').textContent = '';
             // reset email verification
             emailVerificado = false;
+            otpCodeVerificado = '';
             const verBtn = document.getElementById('btnEnviarCodigo');
             verBtn.textContent = 'Verificar';
             verBtn.style.background = '#2563eb';
@@ -938,7 +942,7 @@ export default function Home() {
               const res = await fetch('/api/agendar', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nome, email, telefone, nivel, disciplina, slot: selectedSlot, tipo, notas, professor, ano_escolar })
+                body: JSON.stringify({ nome, email, telefone, nivel, disciplina, slot: selectedSlot, tipo, notas, professor, ano_escolar, otpCode: otpCodeVerificado })
               });
 
               const data = await res.json();

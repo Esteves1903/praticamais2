@@ -13,6 +13,9 @@ export async function GET(req: NextRequest) {
     .select("*")
     .order("criado_em", { ascending: false });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    console.error("Erro ao obter agendamentos:", error.message);
+    return NextResponse.json({ error: "Erro interno do servidor." }, { status: 500 });
+  }
   return NextResponse.json(data);
 }

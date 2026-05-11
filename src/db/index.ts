@@ -14,7 +14,7 @@ function createPool(url: string): Pool {
     database: parsed.pathname.slice(1),
     user: decodeURIComponent(parsed.username),
     password: decodeURIComponent(parsed.password),
-    ssl: { rejectUnauthorized: false },
+    ssl: { rejectUnauthorized: true },
   });
 }
 
