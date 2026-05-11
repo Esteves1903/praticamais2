@@ -11,7 +11,7 @@ function isTokenFormatValid(token: string | undefined): boolean {
   return !isNaN(expires) && Date.now() <= expires;
 }
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const token = req.cookies.get("admin-token")?.value;
 
   if (!isTokenFormatValid(token)) {

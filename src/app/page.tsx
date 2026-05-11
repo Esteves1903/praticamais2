@@ -14,6 +14,7 @@ export default function Home() {
           <a href="#precos">Preços</a>
           <a href="#equipa">Equipa</a>
           <a href="#faq">FAQ</a>
+          <a href="/exames" style={{ fontWeight: 600 }}>Exames</a>
           <a href="#" className="btn-nav" onClick={(e) => { e.preventDefault(); }} id="nav-agendar">Agendar</a>
         </div>
         <button className="hamburger" id="hamburger" aria-label="Menu">
@@ -28,6 +29,7 @@ export default function Home() {
         <a href="#precos">Preços</a>
         <a href="#equipa">Equipa</a>
         <a href="#faq">FAQ</a>
+        <a href="/exames">Exames Nacionais</a>
         <a href="#" className="btn-nav-mobile" id="mobile-agendar">Agendar Explicação</a>
       </div>
 
@@ -611,14 +613,11 @@ export default function Home() {
           function getWeekDates(offset) {
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            // Find next Monday (or today if Monday)
+            // Find Monday of current week (ISO: Mon=1 … Sun=0)
             const dayOfWeek = today.getDay(); // 0=Sun
-            const daysToMon = dayOfWeek === 0 ? 1 : (8 - dayOfWeek) % 7 || 7;
+            const daysToMon = (dayOfWeek + 6) % 7; // days since last Monday
             const baseMonday = new Date(today);
-            if (dayOfWeek !== 1) {
-              baseMonday.setDate(today.getDate() + (dayOfWeek === 0 ? 1 : 8 - dayOfWeek));
-            }
-            baseMonday.setDate(baseMonday.getDate() + offset * 7);
+            baseMonday.setDate(today.getDate() - daysToMon + offset * 7);
             const dates = [];
             for (let i = 0; i < 6; i++) {
               const d = new Date(baseMonday);

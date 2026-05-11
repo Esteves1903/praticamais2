@@ -16,7 +16,24 @@
       "PowerShell(Get-ChildItem -Path \"C:\\\\praticamais\\\\src\" -Recurse | Where-Object { !$_.PSIsContainer } | Select-Object -ExpandProperty FullName)",
       "Bash(node -e \"console.log\\(require\\('crypto'\\).randomBytes\\(32\\).toString\\('hex'\\)\\)\")",
       "Bash(curl -s -X POST http://localhost:3000/api/admin/login -H \"Content-Type: application/json\" -d \"{\\\\\"password\\\\\":\\\\\"admin123\\\\\"}\")",
-      "Bash(curl -s -X POST http://localhost:3000/api/verificar-email/enviar -H \"Content-Type: application/json\" -d \"{\\\\\"email\\\\\":\\\\\"test@test.com\\\\\"}\")"
+      "Bash(curl -s -X POST http://localhost:3000/api/verificar-email/enviar -H \"Content-Type: application/json\" -d \"{\\\\\"email\\\\\":\\\\\"test@test.com\\\\\"}\")",
+      "WebSearch",
+      "WebFetch(domain:iave.pt)",
+      "Bash(node -e \"console.log\\('Node ABI:', process.versions.napi, 'Node version:', process.version, 'V8:', process.versions.v8\\)\")",
+      "Bash(node -e \"const addon = require\\('/c/praticamais/node_modules/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node'\\); console.log\\('SWC addon loaded, keys:', Object.keys\\(addon\\).slice\\(0,5\\)\\)\")",
+      "Bash(node -e \"const addon = require\\('./node_modules/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node'\\); console.log\\('SWC loaded, keys:', Object.keys\\(addon\\).slice\\(0,5\\)\\)\")",
+      "Bash(nvm --version)",
+      "Bash(nvs --version)",
+      "Read(//c/Users/zemar/AppData/Roaming/**)",
+      "Read(//c/Users/zemar/.nvm/versions/**)",
+      "Bash(timeout 10 node --require /tmp/show-errors.cjs node_modules/.bin/next dev)",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(node -e ' *)",
+      "Bash(timeout 12 npm run dev)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
+      "Bash(git checkout *)",
+      "Bash(curl -s -L --max-time 20 -o /dev/null -w \"Homepage: %{http_code}\\\\n\" http://localhost:3000/)"
     ]
   }
 }
