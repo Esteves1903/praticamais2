@@ -134,11 +134,102 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── EQUIPA ─── */}
+      <section id="equipa" style={{ background: "#f8fafc" }}>
+        <div className="section-header">
+          <span className="section-label">A Nossa Equipa</span>
+          <h2 className="section-title">Os Teus Explicadores</h2>
+          <p className="section-sub">Estudantes universitários dedicados a ajudar-te a alcançar os teus objetivos.</p>
+        </div>
+        <div className="team-grid">
+          <div className="member-card fade-in">
+            <div className="member-photo-wrap">
+              <img
+                src="https://raw.githubusercontent.com/Esteves1903/Pratica-site/main/imagens/ze.png"
+                alt="Zé"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = "none";
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.innerHTML = '<div class="member-initials">ZE</div>';
+                  }
+                }}
+              />
+            </div>
+            <span className="member-tag tag-isep">ISEP</span>
+            <div className="member-name">José Mário</div>
+            <div className="member-role">Engenharia · Explicador</div>
+            <div className="member-discs">
+              <span className="member-disc">📐 Matemática</span>
+              <span className="member-disc">📈 MACS</span>
+              <span className="member-disc">⚛️ Física</span>
+              <span className="member-disc">⚛️ FQ</span>
+            </div>
+          </div>
+
+          <div className="member-card fade-in">
+            <div className="member-photo-wrap">
+              <img
+                src="https://raw.githubusercontent.com/Esteves1903/Pratica-site/main/imagens/diogo.jpeg"
+                alt="Diogo"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = "none";
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.innerHTML = '<div class="member-initials">DG</div>';
+                  }
+                }}
+              />
+            </div>
+            <span className="member-tag tag-isep">ISEP</span>
+            <div className="member-name">Diogo Magalhães</div>
+            <div className="member-role">Engenharia · Explicador</div>
+            <div className="member-discs">
+              <span className="member-disc">📐 Matemática</span>
+              <span className="member-disc">📈 MACS</span>
+              <span className="member-disc">⚛️ Física</span>
+              <span className="member-disc">⚛️ FQ</span>
+            </div>
+          </div>
+
+          <div className="member-card fade-in">
+            <div className="member-photo-wrap">
+              <img
+                src="https://raw.githubusercontent.com/Esteves1903/Pratica-site/main/imagens/manu.jpg"
+                alt="Manu"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = "none";
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.innerHTML = '<div class="member-initials">MN</div>';
+                  }
+                }}
+              />
+            </div>
+            <span className="member-tag tag-fep">FEP</span>
+            <div className="member-name">Manuel Silva</div>
+            <div className="member-role">Economia · Explicador</div>
+            <div className="member-discs">
+              <span className="member-disc">📊 Economia</span>
+              <span className="member-disc">📈 MACS</span>
+              <span className="member-disc">🌍 Inglês</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ─── PREÇOS ─── */}
-      
+      <section id="precos">
+        <div className="section-header">
+          <span className="section-label">Investimento</span>
+          <h2 className="section-title">Preços Simples, Sem Surpresas</h2>
+          <p className="section-sub">Escolhe o plano que melhor se adapta a ti. Começa com uma sessão experimental a metade do preço.</p>
+        </div>
 
         {/* Toggle */}
-      <section>
         <div className="nivel-toggle" style={{ marginBottom: "40px", display: "flex", justifyContent: "center" }}>
           <button className="nivel-btn active" id="btn-basico">Ensino Básico</button>
           <button className="nivel-btn" id="btn-secundario">Ensino Secundário</button>
@@ -212,94 +303,6 @@ export default function Home() {
               <button className="btn-agendar sec" data-nivel="secundario" id="agendar-secundario">
                  Agendar Agora
               </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── EQUIPA ─── */}
-      <section id="equipa" style={{ background: "#f8fafc" }}>
-        <div className="section-header">
-          <span className="section-label">A Nossa Equipa</span>
-          <h2 className="section-title">Os Teus Explicadores</h2>
-          <p className="section-sub">Estudantes universitários dedicados a ajudar-te a alcançar os teus objetivos.</p>
-        </div>
-        <div className="team-grid">
-          <div className="member-card fade-in">
-            <div className="member-photo-wrap">
-              <img
-                src="https://raw.githubusercontent.com/Esteves1903/Pratica-site/main/imagens/ze.png"
-                alt="Zé"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = "none";
-                  const parent = target.parentElement;
-                  if (parent) {
-                    parent.innerHTML = '<div class="member-initials">ZE</div>';
-                  }
-                }}
-              />
-            </div>
-            <span className="member-tag tag-isep">ISEP</span>
-            <div className="member-name">José Mário</div>
-            <div className="member-role">Engenharia · Explicador</div>
-            <div className="member-discs">
-              <span className="member-disc">📐 Matemática</span>
-              <span className="member-disc">📈 MACS</span>
-              <span className="member-disc">⚛️ Física</span>
-              <span className="member-disc">⚛️ FQ</span>
-            </div>
-          </div>
-
-          <div className="member-card fade-in">
-            <div className="member-photo-wrap">
-              <img
-                src="https://raw.githubusercontent.com/Esteves1903/Pratica-site/main/imagens/diogo.jpeg"
-                alt="Diogo"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = "none";
-                  const parent = target.parentElement;
-                  if (parent) {
-                    parent.innerHTML = '<div class="member-initials">DG</div>';
-                  }
-                }}
-              />
-            </div>
-            <span className="member-tag tag-isep">ISEP</span>
-            <div className="member-name">Diogo Magalhães</div>
-            <div className="member-role">Engenharia · Explicador</div>
-            <div className="member-discs">
-              <span className="member-disc">📐 Matemática</span>
-              <span className="member-disc">📈 MACS</span>
-              <span className="member-disc">⚛️ Física</span>
-              <span className="member-disc">⚛️ FQ</span>
-
-            </div>
-          </div>
-
-          <div className="member-card fade-in">
-            <div className="member-photo-wrap">
-              <img
-                src="https://raw.githubusercontent.com/Esteves1903/Pratica-site/main/imagens/manu.jpg"
-                alt="Manu"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = "none";
-                  const parent = target.parentElement;
-                  if (parent) {
-                    parent.innerHTML = '<div class="member-initials">MN</div>';
-                  }
-                }}
-              />
-            </div>
-            <span className="member-tag tag-fep">FEP</span>
-            <div className="member-name">Manuel Silva</div>
-            <div className="member-role">Economia · Explicador</div>
-            <div className="member-discs">
-              <span className="member-disc">📊 Economia</span>
-              <span className="member-disc">📈 MACS</span>
-              <span className="member-disc">🌍 Inglês</span>
             </div>
           </div>
         </div>
@@ -460,8 +463,8 @@ export default function Home() {
                   <label className="form-label">Professor <span>*</span></label>
                   <select className="form-select" id="f-professor" required>
                     <option value="">-- Seleciona --</option>
-                    <option value="José Mário">José Mário (Matemática, Física, FQ)</option>
-                    <option value="Diogo Magalhães">Diogo Magalhães (Matemática, Física, FQ)</option>
+                    <option value="José Mário">José Mário (Matemática, MACS, Física, FQ)</option>
+                    <option value="Diogo Magalhães">Diogo Magalhães (Matemática, MACS, Física, FQ)</option>
                     <option value="Manuel Silva">Manuel Silva (Economia, MACS, Inglês)</option>
                     <option value="Sem preferência">Sem preferência</option>
                   </select>
@@ -746,8 +749,8 @@ export default function Home() {
 
           // ── Professor → Disciplina filtering
           const PROF_DISC = {
-            'José Mário':      ['Matemática', 'Física e Química', 'Física'],
-            'Diogo Magalhães': ['Matemática', 'Física e Química', 'Física'],
+            'José Mário':      ['Matemática', 'MACS', 'Física e Química', 'Física'],
+            'Diogo Magalhães': ['Matemática', 'MACS', 'Física e Química', 'Física'],
             'Manuel Silva':    ['Economia', 'MACS', 'Inglês'],
           };
           on('f-professor', 'change', () => {

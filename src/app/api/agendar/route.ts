@@ -7,8 +7,8 @@ export const dynamic = "force-dynamic";
 const NIVEIS_VALIDOS = new Set(["basico", "secundario"]);
 const TIPOS_VALIDOS = new Set(["experimental", "individual", "grupo", "mensal"]);
 const PROFESSOR_DISCIPLINAS: Record<string, string[]> = {
-  "José Mário":       ["Matemática", "Física e Química", "Física"],
-  "Diogo Magalhães":  ["Matemática", "Física e Química", "Física"],
+  "José Mário":       ["Matemática", "MACS", "Física e Química", "Física"],
+  "Diogo Magalhães":  ["Matemática", "MACS", "Física e Química", "Física"],
   "Manuel Silva":     ["Economia", "MACS", "Inglês"],
   "Sem preferência":  ["Matemática", "Física e Química", "Física", "Economia", "MACS", "Inglês"],
 };
