@@ -224,9 +224,7 @@ export default function Home() {
       {/* ─── PREÇOS ─── */}
       <section id="precos">
         <div className="section-header">
-          <span className="section-label">Investimento</span>
-          <h2 className="section-title">Preços Simples, Sem Surpresas</h2>
-          <p className="section-sub">Escolhe o plano que melhor se adapta a ti. Começa com uma sessão experimental a metade do preço.</p>
+          <h1 className="section-title">Escolhe o plano que melhor se adapta a ti.</h1>
         </div>
 
         {/* Toggle */}
@@ -419,25 +417,25 @@ export default function Home() {
             </div>
 
             {/* Form */}
-            <form id="agendamentoForm">
+            <form id="agendamentoForm" suppressHydrationWarning>
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Nome completo <span>*</span></label>
-                  <input type="text" className="form-input" id="f-nome" placeholder="Ex: João Silva" required />
+                  <input suppressHydrationWarning type="text" className="form-input" id="f-nome" placeholder="Ex: João Silva" required />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Email <span>*</span></label>
-                  <input type="email" className="form-input" id="f-email" placeholder="email@exemplo.com" required />
+                  <input suppressHydrationWarning type="email" className="form-input" id="f-email" placeholder="email@exemplo.com" required />
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Telefone <span>*</span></label>
-                  <input type="tel" className="form-input" id="f-telefone" placeholder="+351 9XX XXX XXX" required />
+                  <input suppressHydrationWarning type="tel" className="form-input" id="f-telefone" placeholder="+351 9XX XXX XXX" required />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Nível de ensino <span>*</span></label>
-                  <select className="form-select" id="f-nivel" required>
+                  <select suppressHydrationWarning className="form-select" id="f-nivel" required>
                     <option value="">-- Seleciona --</option>
                     <option value="basico">Ensino Básico (5º-9º)</option>
                     <option value="secundario">Ensino Secundário (10º-12º)</option>
@@ -447,7 +445,7 @@ export default function Home() {
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Ano escolar <span>*</span></label>
-                  <select className="form-select" id="f-ano" required>
+                  <select suppressHydrationWarning className="form-select" id="f-ano" required>
                     <option value="">-- Seleciona --</option>
                     <option value="5º ano">5º ano</option>
                     <option value="6º ano">6º ano</option>
@@ -461,7 +459,7 @@ export default function Home() {
                 </div>
                 <div className="form-group">
                   <label className="form-label">Professor <span>*</span></label>
-                  <select className="form-select" id="f-professor" required>
+                  <select suppressHydrationWarning className="form-select" id="f-professor" required>
                     <option value="">-- Seleciona --</option>
                     <option value="José Mário">José Mário (Matemática, MACS, Física, FQ)</option>
                     <option value="Diogo Magalhães">Diogo Magalhães (Matemática, MACS, Física, FQ)</option>
@@ -473,7 +471,7 @@ export default function Home() {
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Disciplina <span>*</span></label>
-                  <select className="form-select" id="f-disciplina" required>
+                  <select suppressHydrationWarning className="form-select" id="f-disciplina" required>
                     <option value="">-- Seleciona --</option>
                     <option value="Matemática">📐 Matemática</option>
                     <option value="Física e Química">⚛️ Física e Química</option>
@@ -485,12 +483,12 @@ export default function Home() {
                 </div>
                 <div className="form-group">
                   <label className="form-label">Tipo de aula <span>*</span></label>
-                  <select className="form-select" id="f-tipo" required>
+                  <select suppressHydrationWarning className="form-select" id="f-tipo" required>
                     <option value="">-- Seleciona --</option>
-                    <option value="experimental">🎁 Sessão Experimental (50% OFF)</option>
-                    <option value="individual">👤 Hora Individual</option>
-                    <option value="grupo">👥 Aula em Grupo</option>
-                    <option value="mensal">📦 Pack Mensal</option>
+                    <option value="experimental">Sessão Experimental (50% OFF)</option>
+                    <option value="individual">Hora Individual</option>
+                    <option value="grupo">Aula em Grupo</option>
+                    <option value="mensal">Pack Mensal</option>
                   </select>
                 </div>
               </div>
@@ -521,18 +519,18 @@ export default function Home() {
 
               <div className="form-group">
                 <label className="form-label">Notas adicionais</label>
-                <textarea className="form-textarea" id="f-notas" placeholder="Ex: Tenho dificuldades em equações do 2º grau..."></textarea>
+                <textarea suppressHydrationWarning className="form-textarea" id="f-notas" placeholder="Ex: Tenho dificuldades em equações do 2º grau..."></textarea>
               </div>
 
-              {/* Email verification — shown after slot is picked */}
-              <div id="emailVerifSection" style={{ background: "#f8fafc", border: "1.5px solid #e2e8f0", borderRadius: "12px", padding: "20px", marginBottom: "16px" }}>
+              {/* Email verification — shown after slot is picked (Step 3) */}
+              <div id="emailVerifSection" style={{ display: "none", background: "#f8fafc", border: "1.5px solid #e2e8f0", borderRadius: "12px", padding: "20px", marginBottom: "16px" }}>
                 <div style={{ fontWeight: 600, color: "#1e293b", marginBottom: "10px", fontSize: "14px" }}>✉️ Verificação de email</div>
                 <div style={{ display: "flex", gap: "8px" }}>
                   <button type="button" id="btnEnviarCodigo" style={{ padding: "10px 18px", background: "#2563eb", color: "#fff", border: "none", borderRadius: "10px", fontSize: "13px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>Enviar código</button>
                 </div>
                 <div id="emailVerifArea" style={{ display: "none", marginTop: "10px" }}>
                   <div style={{ display: "flex", gap: "8px" }}>
-                    <input type="text" id="f-codigo" placeholder="Código de 6 dígitos" maxLength={6} inputMode="numeric" style={{ flex: 1, padding: "10px 14px", border: "1.5px solid #e2e8f0", borderRadius: "10px", fontSize: "15px", letterSpacing: "4px", textAlign: "center" }} />
+                    <input suppressHydrationWarning type="text" id="f-codigo" placeholder="Código de 6 dígitos" maxLength={6} inputMode="numeric" style={{ flex: 1, padding: "10px 14px", border: "1.5px solid #e2e8f0", borderRadius: "10px", fontSize: "15px", letterSpacing: "4px", textAlign: "center" }} />
                     <button type="button" id="btnConfirmarCodigo" style={{ padding: "0 14px", background: "#f1f5f9", color: "#1e293b", border: "1.5px solid #e2e8f0", borderRadius: "10px", fontSize: "13px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>Confirmar</button>
                   </div>
                   <div id="emailVerifMsg" style={{ fontSize: "13px", marginTop: "6px" }}></div>
@@ -722,6 +720,11 @@ export default function Home() {
             const display = document.getElementById('selectedSlotDisplay');
             document.getElementById('selectedSlotText').textContent = formatSlotNice(slot);
             display.style.display = 'flex';
+            // Activate Step 3 and show email verification
+            document.getElementById('step3').classList.add('active');
+            document.getElementById('line2').classList.add('active');
+            document.getElementById('emailVerifSection').style.display = 'block';
+            document.getElementById('emailVerifSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }
 
           // ── Week navigation
@@ -745,28 +748,41 @@ export default function Home() {
             const ssd = $('selectedSlotDisplay');
             if (ssd) ssd.style.display = 'none';
             document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+            // Deactivate Step 3 and hide email verification
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('line2').classList.remove('active');
+            document.getElementById('emailVerifSection').style.display = 'none';
           });
 
-          // ── Professor → Disciplina filtering
+          // ── Disciplina filtering by nivel + professor
+          const NIVEL_DISC = {
+            'basico':      ['Matemática', 'Física e Química', 'Inglês'],
+            'secundario':  ['Matemática', 'Física', 'Economia', 'MACS', 'Inglês'],
+          };
           const PROF_DISC = {
             'José Mário':      ['Matemática', 'MACS', 'Física e Química', 'Física'],
             'Diogo Magalhães': ['Matemática', 'MACS', 'Física e Química', 'Física'],
             'Manuel Silva':    ['Economia', 'MACS', 'Inglês'],
           };
-          on('f-professor', 'change', () => {
-            const prof = document.getElementById('f-professor').value;
+          function updateDiscOptions() {
+            const nivel = document.getElementById('f-nivel').value;
+            const prof  = document.getElementById('f-professor').value;
+            const byNivel = NIVEL_DISC[nivel] || null;
+            const byProf  = PROF_DISC[prof]  || null;
             const discSel = document.getElementById('f-disciplina');
-            const allowed = PROF_DISC[prof] || null;
             Array.from(discSel.options).forEach(opt => {
-              if (!opt.value) return; // keep placeholder
-              opt.hidden = allowed ? !allowed.includes(opt.value) : false;
-              opt.disabled = allowed ? !allowed.includes(opt.value) : false;
+              if (!opt.value) return;
+              const okNivel = !byNivel || byNivel.includes(opt.value);
+              const okProf  = !byProf  || byProf.includes(opt.value);
+              opt.hidden   = !(okNivel && okProf);
+              opt.disabled = !(okNivel && okProf);
             });
-            // reset discipline if current choice is now invalid
-            if (allowed && discSel.value && !allowed.includes(discSel.value)) {
+            if (discSel.value && discSel.options[discSel.selectedIndex]?.hidden) {
               discSel.value = '';
             }
-          });
+          }
+          on('f-nivel',     'change', updateDiscOptions);
+          on('f-professor', 'change', updateDiscOptions);
 
           // ── Email verification
           on('f-email', 'input', () => {
@@ -782,6 +798,22 @@ export default function Home() {
               document.getElementById('emailVerifMsg').textContent = '';
             }
           });
+
+          function startOtpCooldown(btn, seconds) {
+            btn.disabled = true;
+            let remaining = seconds;
+            btn.textContent = 'Reenviar em ' + remaining + 's';
+            const timer = setInterval(() => {
+              remaining--;
+              if (remaining <= 0) {
+                clearInterval(timer);
+                btn.textContent = 'Reenviar';
+                btn.disabled = false;
+              } else {
+                btn.textContent = 'Reenviar em ' + remaining + 's';
+              }
+            }, 1000);
+          }
 
           on('btnEnviarCodigo', 'click', async () => {
             const email = document.getElementById('f-email').value.trim();
@@ -800,21 +832,26 @@ export default function Home() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
               });
+              const data = await res.json();
               if (res.ok) {
                 document.getElementById('emailVerifArea').style.display = 'block';
                 document.getElementById('emailVerifMsg').textContent = 'Código enviado! Verifica o teu email (e a pasta de spam).';
                 document.getElementById('emailVerifMsg').style.color = '#2563eb';
-                btn.textContent = 'Reenviar';
-                btn.disabled = false;
+                startOtpCooldown(btn, 60);
+              } else if (res.status === 429) {
+                document.getElementById('emailVerifMsg').textContent = data.error || 'Demasiadas tentativas. Aguarda antes de tentar novamente.';
+                document.getElementById('emailVerifMsg').style.color = '#dc2626';
+                document.getElementById('emailVerifArea').style.display = 'block';
+                startOtpCooldown(btn, 120);
               } else {
                 document.getElementById('emailVerifMsg').textContent = 'Erro ao enviar. Tenta novamente.';
                 document.getElementById('emailVerifMsg').style.color = '#dc2626';
                 document.getElementById('emailVerifArea').style.display = 'block';
-                btn.textContent = 'Verificar';
+                btn.textContent = 'Enviar código';
                 btn.disabled = false;
               }
             } catch {
-              btn.textContent = 'Verificar';
+              btn.textContent = 'Enviar código';
               btn.disabled = false;
             }
           });
@@ -883,6 +920,7 @@ export default function Home() {
             if (nivel) {
               document.getElementById('f-nivel').value = nivel;
               updateAnoOptions(nivel);
+              updateDiscOptions();
             }
             loadSlots();
             // reset form & success
@@ -901,6 +939,9 @@ export default function Home() {
             document.getElementById('emailVerifArea').style.display = 'none';
             document.getElementById('emailVerifMsg').textContent = '';
             document.getElementById('f-codigo').value = '';
+            document.getElementById('emailVerifSection').style.display = 'none';
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('line2').classList.remove('active');
           }
 
           function closeModal() {

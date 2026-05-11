@@ -5,6 +5,10 @@ import { gerarOtp } from "@/lib/auth";
 export const dynamic = "force-dynamic";
 
 const NIVEIS_VALIDOS = new Set(["basico", "secundario"]);
+const NIVEL_DISCIPLINAS: Record<string, string[]> = {
+  basico:     ["Matemática", "Física e Química", "Inglês"],
+  secundario: ["Matemática", "Física", "Economia", "MACS", "Inglês"],
+};
 const TIPOS_VALIDOS = new Set(["experimental", "individual", "grupo", "mensal"]);
 const PROFESSOR_DISCIPLINAS: Record<string, string[]> = {
   "José Mário":       ["Matemática", "MACS", "Física e Química", "Física"],
@@ -29,6 +33,9 @@ export async function POST(req: NextRequest) {
     }
     if (!NIVEIS_VALIDOS.has(nivel)) {
       return NextResponse.json({ error: "Nível inválido." }, { status: 400 });
+    }
+    if (!NIVEL_DISCIPLINAS[nivel]?.includes(disciplina)) {
+      return NextResponse.json({ error: "Disciplina não disponível para o nível selecionado." }, { status: 400 });
     }
     if (!TIPOS_VALIDOS.has(tipo)) {
       return NextResponse.json({ error: "Tipo de aula inválido." }, { status: 400 });

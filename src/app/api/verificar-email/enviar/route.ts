@@ -4,10 +4,52 @@ import { Resend } from "resend";
 
 export const dynamic = "force-dynamic";
 
+// In-memory rate limiter: works per warm serverless instance.
+// Limits: 3 sends per email per 10 min, 10 sends per IP per 10 min.
+const rl = new Map<string, { count: number; resetAt: number }>();
+
+function allow(key: string, max: number, windowMs: number): boolean {
+  const now = Date.now();
+  const entry = rl.get(key);
+  if (!entry || now > entry.resetAt) {
+    rl.set(key, { count: 1, resetAt: now + windowMs });
+    return true;
+  }
+  if (entry.count >= max) return false;
+  entry.count++;
+  return true;
+}
+
+function getIp(req: NextRequest): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+    req.headers.get("x-real-ip") ||
+    "unknown"
+  );
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { email } = await req.json();
-    if (!email) return NextResponse.json({ error: "Email obrigatório" }, { status: 400 });
+    if (!email || typeof email !== "string") {
+      return NextResponse.json({ error: "Email obrigatório" }, { status: 400 });
+    }
+
+    const ip = getIp(req);
+    const TEN_MIN = 10 * 60 * 1000;
+
+    if (!allow(`email:${email.toLowerCase()}`, 3, TEN_MIN)) {
+      return NextResponse.json(
+        { error: "Demasiadas tentativas. Aguarda 10 minutos antes de pedir outro código." },
+        { status: 429 }
+      );
+    }
+    if (!allow(`ip:${ip}`, 10, TEN_MIN)) {
+      return NextResponse.json(
+        { error: "Demasiadas tentativas. Aguarda 10 minutos." },
+        { status: 429 }
+      );
+    }
 
     const code = gerarOtp(email);
     const resend = new Resend(process.env.RESEND_API_KEY);
