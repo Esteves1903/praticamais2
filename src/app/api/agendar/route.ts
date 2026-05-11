@@ -5,7 +5,13 @@ import { gerarOtp } from "@/lib/auth";
 export const dynamic = "force-dynamic";
 
 const NIVEIS_VALIDOS = new Set(["basico", "secundario"]);
-const TIPOS_VALIDOS = new Set(["experimental", "individual", "grupo"]);
+const TIPOS_VALIDOS = new Set(["experimental", "individual", "grupo", "mensal"]);
+const PROFESSOR_DISCIPLINAS: Record<string, string[]> = {
+  "José Mário":       ["Matemática", "Física e Química", "Física"],
+  "Diogo Magalhães":  ["Matemática", "Física e Química", "Física"],
+  "Manuel Silva":     ["Economia", "MACS", "Inglês"],
+  "Sem preferência":  ["Matemática", "Física e Química", "Física", "Economia", "MACS", "Inglês"],
+};
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
@@ -33,6 +39,12 @@ export async function POST(req: NextRequest) {
     if (typeof notas === "string" && notas.length > 1000) {
       return NextResponse.json({ error: "Notas demasiado longas." }, { status: 400 });
     }
+    if (professor && professor !== "Sem preferência") {
+      const allowed = PROFESSOR_DISCIPLINAS[professor];
+      if (!allowed || !allowed.includes(disciplina)) {
+        return NextResponse.json({ error: "Este professor não leciona esta disciplina." }, { status: 400 });
+      }
+    }
 
     // Server-side OTP email verification
     const otpValido =
@@ -41,6 +53,12 @@ export async function POST(req: NextRequest) {
 
     if (!otpValido) {
       return NextResponse.json({ error: "Email não verificado. Por favor verifica o teu email antes de submeter." }, { status: 403 });
+    }
+
+    // Reject slots in the past
+    const slotDate = new Date(slot);
+    if (isNaN(slotDate.getTime()) || slotDate <= new Date()) {
+      return NextResponse.json({ error: "Este horário já passou." }, { status: 400 });
     }
 
     // Check if slot is still available

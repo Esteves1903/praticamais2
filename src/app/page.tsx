@@ -424,17 +424,7 @@ export default function Home() {
                 </div>
                 <div className="form-group">
                   <label className="form-label">Email <span>*</span></label>
-                  <div style={{ display: "flex", gap: "8px" }}>
-                    <input type="email" className="form-input" id="f-email" placeholder="email@exemplo.com" required style={{ flex: 1 }} />
-                    <button type="button" id="btnEnviarCodigo" style={{ padding: "0 14px", background: "#2563eb", color: "#fff", border: "none", borderRadius: "10px", fontSize: "13px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>Verificar</button>
-                  </div>
-                  <div id="emailVerifArea" style={{ display: "none", marginTop: "10px" }}>
-                    <div style={{ display: "flex", gap: "8px" }}>
-                      <input type="text" id="f-codigo" placeholder="Código de 6 dígitos" maxLength={6} inputMode="numeric" style={{ flex: 1, padding: "10px 14px", border: "1.5px solid #e2e8f0", borderRadius: "10px", fontSize: "15px", letterSpacing: "4px", textAlign: "center" }} />
-                      <button type="button" id="btnConfirmarCodigo" style={{ padding: "0 14px", background: "#f1f5f9", color: "#1e293b", border: "1.5px solid #e2e8f0", borderRadius: "10px", fontSize: "13px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>Confirmar</button>
-                    </div>
-                    <div id="emailVerifMsg" style={{ fontSize: "13px", marginTop: "6px" }}></div>
-                  </div>
+                  <input type="email" className="form-input" id="f-email" placeholder="email@exemplo.com" required />
                 </div>
               </div>
               <div className="form-row">
@@ -529,6 +519,21 @@ export default function Home() {
               <div className="form-group">
                 <label className="form-label">Notas adicionais</label>
                 <textarea className="form-textarea" id="f-notas" placeholder="Ex: Tenho dificuldades em equações do 2º grau..."></textarea>
+              </div>
+
+              {/* Email verification — shown after slot is picked */}
+              <div id="emailVerifSection" style={{ background: "#f8fafc", border: "1.5px solid #e2e8f0", borderRadius: "12px", padding: "20px", marginBottom: "16px" }}>
+                <div style={{ fontWeight: 600, color: "#1e293b", marginBottom: "10px", fontSize: "14px" }}>✉️ Verificação de email</div>
+                <div style={{ display: "flex", gap: "8px" }}>
+                  <button type="button" id="btnEnviarCodigo" style={{ padding: "10px 18px", background: "#2563eb", color: "#fff", border: "none", borderRadius: "10px", fontSize: "13px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>Enviar código</button>
+                </div>
+                <div id="emailVerifArea" style={{ display: "none", marginTop: "10px" }}>
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <input type="text" id="f-codigo" placeholder="Código de 6 dígitos" maxLength={6} inputMode="numeric" style={{ flex: 1, padding: "10px 14px", border: "1.5px solid #e2e8f0", borderRadius: "10px", fontSize: "15px", letterSpacing: "4px", textAlign: "center" }} />
+                    <button type="button" id="btnConfirmarCodigo" style={{ padding: "0 14px", background: "#f1f5f9", color: "#1e293b", border: "1.5px solid #e2e8f0", borderRadius: "10px", fontSize: "13px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>Confirmar</button>
+                  </div>
+                  <div id="emailVerifMsg" style={{ fontSize: "13px", marginTop: "6px" }}></div>
+                </div>
               </div>
 
               <div className="form-error" id="formError"></div>
@@ -633,7 +638,8 @@ export default function Home() {
               const dateStr = date.getFullYear() + '-' +
                 String(date.getMonth()+1).padStart(2,'0') + '-' +
                 String(date.getDate()).padStart(2,'0');
-              const daySlots = allSlots.filter(s => s.slot.startsWith(dateStr));
+              const _now = new Date();
+              const daySlots = allSlots.filter(s => s.slot.startsWith(dateStr) && parseSlot(s.slot) > _now);
               const count = daySlots.length;
 
               const btn = document.createElement('button');
@@ -683,7 +689,8 @@ export default function Home() {
 
           function renderSlots(dateStr) {
             const container = document.getElementById('slotsContainer');
-            const daySlots = allSlots.filter(s => s.slot.startsWith(dateStr));
+            const now = new Date();
+            const daySlots = allSlots.filter(s => s.slot.startsWith(dateStr) && parseSlot(s.slot) > now);
 
             if (daySlots.length === 0) {
               container.innerHTML = '<div class="no-slots">Sem horários disponíveis neste dia.</div>';
@@ -737,13 +744,34 @@ export default function Home() {
             document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
           });
 
+          // ── Professor → Disciplina filtering
+          const PROF_DISC = {
+            'José Mário':      ['Matemática', 'Física e Química', 'Física'],
+            'Diogo Magalhães': ['Matemática', 'Física e Química', 'Física'],
+            'Manuel Silva':    ['Economia', 'MACS', 'Inglês'],
+          };
+          on('f-professor', 'change', () => {
+            const prof = document.getElementById('f-professor').value;
+            const discSel = document.getElementById('f-disciplina');
+            const allowed = PROF_DISC[prof] || null;
+            Array.from(discSel.options).forEach(opt => {
+              if (!opt.value) return; // keep placeholder
+              opt.hidden = allowed ? !allowed.includes(opt.value) : false;
+              opt.disabled = allowed ? !allowed.includes(opt.value) : false;
+            });
+            // reset discipline if current choice is now invalid
+            if (allowed && discSel.value && !allowed.includes(discSel.value)) {
+              discSel.value = '';
+            }
+          });
+
           // ── Email verification
           on('f-email', 'input', () => {
             if (emailVerificado) {
               emailVerificado = false;
               otpCodeVerificado = '';
               const btn = document.getElementById('btnEnviarCodigo');
-              btn.textContent = 'Verificar';
+              btn.textContent = 'Enviar código';
               btn.style.background = '#2563eb';
               btn.style.color = '#fff';
               btn.disabled = false;
@@ -863,7 +891,7 @@ export default function Home() {
             emailVerificado = false;
             otpCodeVerificado = '';
             const verBtn = document.getElementById('btnEnviarCodigo');
-            verBtn.textContent = 'Verificar';
+            verBtn.textContent = 'Enviar código';
             verBtn.style.background = '#2563eb';
             verBtn.style.color = '#fff';
             verBtn.disabled = false;

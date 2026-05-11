@@ -31,8 +31,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    console.error("Erro ao enviar OTP:", msg);
-    return NextResponse.json({ error: msg }, { status: 500 });
+    console.error("Erro ao enviar OTP:", err);
+    return NextResponse.json({ error: "Erro ao enviar email de verificação." }, { status: 500 });
   }
 }
