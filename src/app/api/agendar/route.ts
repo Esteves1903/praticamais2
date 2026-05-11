@@ -23,7 +23,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { nome, email, telefone, nivel, disciplina, slot, tipo, notas, professor, ano_escolar, otpCode } = body;
 
-    if (!nome || !email || !telefone || !nivel || !disciplina || !slot || !tipo || !ano_escolar) {
+    const requiresSlot = tipo !== "mensal";
+    if (!nome || !email || !telefone || !nivel || !disciplina || !tipo || !ano_escolar || (requiresSlot && !slot)) {
       return NextResponse.json({ error: "Todos os campos obrigatórios devem ser preenchidos." }, { status: 400 });
     }
 
@@ -62,23 +63,44 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email não verificado. Por favor verifica o teu email antes de submeter." }, { status: 403 });
     }
 
-    // Reject slots in the past
-    const slotDate = new Date(slot);
-    if (isNaN(slotDate.getTime()) || slotDate <= new Date()) {
-      return NextResponse.json({ error: "Este horário já passou." }, { status: 400 });
+    // Prevent duplicate experimental bookings
+    if (tipo === "experimental") {
+      const { data: existingExp, error: expError } = await supabase
+        .from("agendamentos")
+        .select("id")
+        .eq("email", email.toLowerCase())
+        .eq("tipo", "experimental")
+        .limit(1);
+
+      if (expError) throw expError;
+
+      if (existingExp && existingExp.length > 0) {
+        return NextResponse.json(
+          { error: "Já tens uma sessão experimental registada. Cada aluno só pode ter uma sessão experimental." },
+          { status: 409 }
+        );
+      }
     }
 
-    // Check if slot is still available
-    const { data: slotRows, error: slotError } = await supabase
-      .from("horarios")
-      .select("*")
-      .eq("slot", slot)
-      .eq("disponivel", true);
+    if (requiresSlot) {
+      // Reject slots in the past
+      const slotDate = new Date(slot);
+      if (isNaN(slotDate.getTime()) || slotDate <= new Date()) {
+        return NextResponse.json({ error: "Este horário já passou." }, { status: 400 });
+      }
 
-    if (slotError) throw slotError;
+      // Check if slot is still available
+      const { data: slotRows, error: slotError } = await supabase
+        .from("horarios")
+        .select("*")
+        .eq("slot", slot)
+        .eq("disponivel", true);
 
-    if (!slotRows || slotRows.length === 0) {
-      return NextResponse.json({ error: "Este horário já foi reservado. Por favor escolhe outro." }, { status: 409 });
+      if (slotError) throw slotError;
+
+      if (!slotRows || slotRows.length === 0) {
+        return NextResponse.json({ error: "Este horário já foi reservado. Por favor escolhe outro." }, { status: 409 });
+      }
     }
 
     // Create the booking
@@ -90,7 +112,7 @@ export async function POST(req: NextRequest) {
         telefone,
         nivel,
         disciplina,
-        slot,
+        slot: requiresSlot ? slot : null,
         tipo,
         notas: typeof notas === "string" ? notas : "",
         professor: typeof professor === "string" ? professor : "",
@@ -101,13 +123,15 @@ export async function POST(req: NextRequest) {
 
     if (insertError) throw insertError;
 
-    // Mark slot as unavailable
-    const { error: updateError } = await supabase
-      .from("horarios")
-      .update({ disponivel: false, agendamento_id: newAgendamento.id })
-      .eq("slot", slot);
+    if (requiresSlot) {
+      // Mark slot as unavailable
+      const { error: updateError } = await supabase
+        .from("horarios")
+        .update({ disponivel: false, agendamento_id: newAgendamento.id })
+        .eq("slot", slot);
 
-    if (updateError) throw updateError;
+      if (updateError) throw updateError;
+    }
 
     return NextResponse.json({ success: true, agendamento: newAgendamento }, { status: 201 });
   } catch (error) {

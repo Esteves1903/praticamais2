@@ -490,12 +490,18 @@ export default function Home() {
                     <option value="grupo">Aula em Grupo</option>
                     <option value="mensal">Pack Mensal</option>
                   </select>
+                  <div id="expWarning" style={{ display: "none", marginTop: "6px", fontSize: "13px", color: "#dc2626", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: "8px", padding: "8px 12px" }}>
+                    ⚠️ Já tens uma sessão experimental registada. Cada aluno só pode usufruir de uma sessão experimental.
+                  </div>
                 </div>
               </div>
 
               {/* Calendar */}
-              <div className="form-group">
+              <div className="form-group" id="slotGroup">
                 <label className="form-label">Horário disponível <span>*</span></label>
+                <div id="noSlotMsg" style={{ display: "none", padding: "16px", background: "#f0f9ff", border: "1.5px solid #bae6fd", borderRadius: "12px", color: "#0369a1", fontSize: "14px" }}>
+                  📅 O horário do Pack Mensal é combinado diretamente com o teu professor após a marcação.
+                </div>
                 <div className="calendar-section" id="calendarSection">
                   <div className="week-nav">
                     <button type="button" className="week-btn" id="prevWeek">←</button>
@@ -784,6 +790,25 @@ export default function Home() {
           on('f-nivel',     'change', updateDiscOptions);
           on('f-professor', 'change', updateDiscOptions);
 
+          // ── Hide calendar for Pack Mensal
+          on('f-tipo', 'change', () => {
+            const tipo = document.getElementById('f-tipo').value;
+            const isMensal = tipo === 'mensal';
+            document.getElementById('calendarSection').style.display = isMensal ? 'none' : '';
+            document.getElementById('noSlotMsg').style.display = isMensal ? 'block' : 'none';
+            if (isMensal) {
+              selectedSlot = null;
+              document.getElementById('selectedSlotDisplay').style.display = 'none';
+              document.getElementById('step3').classList.add('active');
+              document.getElementById('line2').classList.add('active');
+              document.getElementById('emailVerifSection').style.display = 'block';
+            } else if (!selectedSlot) {
+              document.getElementById('step3').classList.remove('active');
+              document.getElementById('line2').classList.remove('active');
+              document.getElementById('emailVerifSection').style.display = 'none';
+            }
+          });
+
           // ── Email verification
           on('f-email', 'input', () => {
             if (emailVerificado) {
@@ -796,6 +821,11 @@ export default function Home() {
               btn.disabled = false;
               document.getElementById('emailVerifArea').style.display = 'none';
               document.getElementById('emailVerifMsg').textContent = '';
+              // Re-enable experimental option when email changes
+              const tipoSel = document.getElementById('f-tipo');
+              Array.from(tipoSel.options).forEach(o => { o.hidden = false; o.disabled = false; });
+              const expWarn = document.getElementById('expWarning');
+              if (expWarn) expWarn.style.display = 'none';
             }
           });
 
@@ -881,6 +911,29 @@ export default function Home() {
               btn.style.background = '#dcfce7';
               btn.style.color = '#16a34a';
               btn.disabled = true;
+
+              // Check if this email already has an experimental booking
+              try {
+                const expRes = await fetch('/api/verificar-experimental', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email, otpCode: code })
+                });
+                const expData = await expRes.json();
+                const tipoSelect = document.getElementById('f-tipo');
+                const expOpt = Array.from(tipoSelect.options).find(o => o.value === 'experimental');
+                const expWarning = document.getElementById('expWarning');
+                if (expData.jaUsou && expOpt) {
+                  expOpt.hidden = true;
+                  expOpt.disabled = true;
+                  if (tipoSelect.value === 'experimental') tipoSelect.value = '';
+                  if (expWarning) expWarning.style.display = 'block';
+                } else if (expOpt) {
+                  expOpt.hidden = false;
+                  expOpt.disabled = false;
+                  if (expWarning) expWarning.style.display = 'none';
+                }
+              } catch(e) { /* non-blocking */ }
             } else {
               msgEl.textContent = '✗ Código inválido ou expirado. Pede um novo código.';
               msgEl.style.color = '#dc2626';
@@ -942,6 +995,14 @@ export default function Home() {
             document.getElementById('emailVerifSection').style.display = 'none';
             document.getElementById('step3').classList.remove('active');
             document.getElementById('line2').classList.remove('active');
+            // Reset calendar visibility
+            document.getElementById('calendarSection').style.display = '';
+            document.getElementById('noSlotMsg').style.display = 'none';
+            // Reset experimental option
+            const tipoSel = document.getElementById('f-tipo');
+            Array.from(tipoSel.options).forEach(o => { o.hidden = false; o.disabled = false; });
+            const expWarn = document.getElementById('expWarning');
+            if (expWarn) expWarn.style.display = 'none';
           }
 
           function closeModal() {
@@ -999,7 +1060,7 @@ export default function Home() {
               return;
             }
 
-            if (!selectedSlot) {
+            if (!selectedSlot && tipo !== 'mensal') {
               errorEl.textContent = '⚠️ Por favor seleciona um horário disponível.';
               errorEl.classList.add('visible');
               return;
