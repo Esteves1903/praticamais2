@@ -9,7 +9,7 @@ export default function Termos() {
         {[
           {
             titulo: "1. Identificação",
-            texto: `A Pratica+ é um serviço de apoio escolar online prestado por estudantes do ISEP (Instituto Superior de Engenharia do Porto) e da FEP (Faculdade de Economia do Porto). Contacto: pratica.mais.26@gmail.com`
+            texto: `O Pratica+ é um serviço de apoio escolar online prestado por estudantes do ISEP (Instituto Superior de Engenharia do Porto) e da FEP (Faculdade de Economia do Porto). Contacto: pratica.mais.26@gmail.com`
           },
           {
             titulo: "2. Aceitação dos Termos",
@@ -17,7 +17,7 @@ export default function Termos() {
           },
           {
             titulo: "3. Serviços Prestados",
-            texto: `A Pratica+ oferece sessões de apoio escolar online nas seguintes modalidades:\n• Sessão Experimental (50% desconto na 1ª sessão)\n• Aula Individual\n• Aula de Grupo\n\nAs sessões são realizadas online através de plataformas como Zoom ou Google Meet, por professores devidamente identificados.`
+            texto: `O Pratica+ oferece sessões de apoio escolar online nas seguintes modalidades:\n• Sessão Experimental (50% desconto na 1ª sessão)\n• Aula Individual\n• Aula de Grupo\n\nAs sessões são realizadas online através de plataformas como Zoom ou Google Meet, por professores devidamente identificados.`
           },
           {
             titulo: "4. Agendamento e Confirmação",
@@ -29,7 +29,7 @@ export default function Termos() {
           },
           {
             titulo: "6. Cancelamento e Reagendamento",
-            texto: `• Cancelamentos com mais de 24 horas de antecedência: sem qualquer custo\n• Cancelamentos com menos de 24 horas: poderá ser cobrada uma taxa de 50% do valor da sessão\n• Faltas sem aviso: será cobrado o valor integral da sessão\n\nPara cancelar ou reagendar, contacte-nos via WhatsApp (+351 919 761 389) ou email.`
+            texto: `• Cancelamentos com mais de 24 horas de antecedência: sem qualquer custo\n• Faltas sem aviso: será cobrado o valor integral da sessão\n• Para cancelar ou reagendar, contacte-nos via WhatsApp (+351 919 761 389) ou email.`
           },
           {
             titulo: "7. Responsabilidades",
@@ -39,12 +39,9 @@ export default function Termos() {
             titulo: "8. Propriedade Intelectual",
             texto: `Todo o conteúdo do site Pratica+ (textos, imagens, design) é propriedade da Pratica+ e não pode ser reproduzido sem autorização prévia por escrito.`
           },
+          
           {
-            titulo: "9. Lei Aplicável",
-            texto: `Os presentes Termos e Condições regem-se pela lei portuguesa. Qualquer litígio será submetido aos tribunais da comarca do Porto, com expressa renúncia a qualquer outro foro.`
-          },
-          {
-            titulo: "10. Alterações",
+            titulo: "9. Alterações",
             texto: `A Pratica+ reserva-se o direito de alterar os presentes Termos a qualquer momento. As alterações entram em vigor na data da sua publicação no site. Recomendamos a consulta periódica desta página.`
           },
         ].map(({ titulo, texto }) => (

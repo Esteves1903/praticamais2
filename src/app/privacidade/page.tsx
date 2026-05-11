@@ -33,7 +33,7 @@ export default function Privacidade() {
           },
           {
             titulo: "7. Segurança",
-            texto: `Os dados são armazenados em servidores seguros (Supabase, com infraestrutura na UE) e o acesso é restrito aos membros da equipa Pratica+. Utilizamos HTTPS em todas as comunicações.`
+            texto: `Os dados são armazenados em servidores seguros e o acesso é restrito aos membros da equipa Pratica+. Utilizamos HTTPS em todas as comunicações.`
           },
           {
             titulo: "8. Cookies",

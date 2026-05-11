@@ -14,7 +14,7 @@ export default function Home() {
           <a href="#precos">Preços</a>
           <a href="#equipa">Equipa</a>
           <a href="#faq">FAQ</a>
-          <a href="#" className="btn-nav" onClick={(e) => { e.preventDefault(); }} id="nav-agendar">📅 Agendar</a>
+          <a href="#" className="btn-nav" onClick={(e) => { e.preventDefault(); }} id="nav-agendar">Agendar</a>
         </div>
         <button className="hamburger" id="hamburger" aria-label="Menu">
           <span></span><span></span><span></span>
@@ -28,7 +28,7 @@ export default function Home() {
         <a href="#precos">Preços</a>
         <a href="#equipa">Equipa</a>
         <a href="#faq">FAQ</a>
-        <a href="#" className="btn-nav-mobile" id="mobile-agendar">📅 Agendar Explicação</a>
+        <a href="#" className="btn-nav-mobile" id="mobile-agendar">Agendar Explicação</a>
       </div>
 
       {/* ─── HERO ─── */}
@@ -37,7 +37,7 @@ export default function Home() {
         <h1>Domina as notas,<br />conquista o teu futuro.</h1>
         <p>Apoio escolar personalizado com estudantes do ISEP e da FEP. Aulas online adaptadas ao teu ritmo.</p>
         <div className="hero-ctas">
-          <a href="#" className="btn-primary" id="hero-agendar">📅 Agendar Sessão </a>
+          <a href="#" className="btn-primary" id="hero-agendar">Agendar Sessão </a>
           <a href="#sobre" className="btn-secondary">Saber Mais →</a>
         </div>
         <div className="hero-stats">
@@ -46,12 +46,12 @@ export default function Home() {
             <span className="stat-label">Desconto na 1ª sessão</span>
           </div>
           <div className="stat">
-            <span className="stat-number">5+</span>
+            <span className="stat-number">6</span>
             <span className="stat-label">Disciplinas disponíveis</span>
           </div>
           <div className="stat">
-            <span className="stat-number">100%</span>
-            <span className="stat-label">Online & Flexível</span>
+            <span className="stat-number">+2</span>
+            <span className="stat-label">Anos de Experiência</span>
           </div>
           <div className="stat">
             <span className="stat-number">ISEP+FEP</span>
@@ -65,7 +65,7 @@ export default function Home() {
         <div className="section-header">
           <span className="section-label">A Nossa Identidade</span>
           <h2 className="section-title">Quem Somos, Missão e Valores</h2>
-          <p className="section-sub">Mais do que explicadores — somos mentores que falam a mesma língua dos alunos.</p>
+          <p className="section-sub">Acreditamos que todos os alunos têm potencial para alcançar o sucesso escolar com o apoio certo.</p>
         </div>
         <div className="sobre-grid">
           <div className="sobre-card fade-in">
@@ -135,17 +135,13 @@ export default function Home() {
       </section>
 
       {/* ─── PREÇOS ─── */}
-      <section id="precos" style={{ background: "white" }}>
-        <div className="section-header">
-          <span className="section-label">Preços Transparentes</span>
-          <h2 className="section-title">Tabela de Preços</h2>
-          <p className="section-sub">Sem surpresas. Preços claros para o ensino básico e secundário.</p>
-        </div>
+      
 
         {/* Toggle */}
+      <section>
         <div className="nivel-toggle" style={{ marginBottom: "40px", display: "flex", justifyContent: "center" }}>
-          <button className="nivel-btn active" id="btn-basico">🏫 Ensino Básico</button>
-          <button className="nivel-btn" id="btn-secundario">📚 Ensino Secundário</button>
+          <button className="nivel-btn active" id="btn-basico">Ensino Básico</button>
+          <button className="nivel-btn" id="btn-secundario">Ensino Secundário</button>
         </div>
 
         {/* Básico */}
@@ -159,26 +155,26 @@ export default function Home() {
             <table className="preco-table">
               <tbody>
                 <tr>
-                  <td><span className="preco-tipo"><span className="preco-tipo-icon">🎁</span> Sessão Experimental <span className="badge-promo">50% OFF</span></span></td>
+                  <td><span className="preco-tipo"> Sessão Experimental <span className="badge-promo">50% OFF</span></span></td>
                   <td className="preco-valor"><span className="preco-original">10€</span><span className="preco-promo">5€</span></td>
                 </tr>
                 <tr>
-                  <td><span className="preco-tipo"><span className="preco-tipo-icon">👤</span> Hora Individual</span></td>
+                  <td><span className="preco-tipo"> Hora Individual</span></td>
                   <td className="preco-valor">10€/h</td>
                 </tr>
                 <tr>
-                  <td><span className="preco-tipo"><span className="preco-tipo-icon">👥</span> Grupo (2 pessoas)</span></td>
+                  <td><span className="preco-tipo"> Grupo (2 pessoas)</span></td>
                   <td className="preco-valor">15€/h</td>
                 </tr>
                 <tr>
-                  <td><span className="preco-tipo"><span className="preco-tipo-icon">📦</span> Pack Mensal (4 aulas)</span></td>
+                  <td><span className="preco-tipo"> Pack Mensal (4 aulas)</span></td>
                   <td className="preco-valor">45€</td>
                 </tr>
               </tbody>
             </table>
             <div className="preco-cta">
               <button className="btn-agendar" data-nivel="basico" id="agendar-basico">
-                📅 Agendar Agora
+                Agendar Agora
               </button>
             </div>
           </div>
@@ -195,26 +191,26 @@ export default function Home() {
             <table className="preco-table">
               <tbody>
                 <tr>
-                  <td><span className="preco-tipo"><span className="preco-tipo-icon">🎁</span> Sessão Experimental <span className="badge-promo">50% OFF</span></span></td>
+                  <td><span className="preco-tipo"> Sessão Experimental <span className="badge-promo">50% OFF</span></span></td>
                   <td className="preco-valor"><span className="preco-original">15€</span><span className="preco-promo">7.50€</span></td>
                 </tr>
                 <tr>
-                  <td><span className="preco-tipo"><span className="preco-tipo-icon">👤</span> Hora Individual</span></td>
+                  <td><span className="preco-tipo"> Hora Individual</span></td>
                   <td className="preco-valor">15€/h</td>
                 </tr>
                 <tr>
-                  <td><span className="preco-tipo"><span className="preco-tipo-icon">👥</span> Grupo (2 pessoas)</span></td>
+                  <td><span className="preco-tipo"> Grupo (2 pessoas)</span></td>
                   <td className="preco-valor">20€/h</td>
                 </tr>
                 <tr>
-                  <td><span className="preco-tipo"><span className="preco-tipo-icon">📦</span> Pack Mensal (4 aulas)</span></td>
+                  <td><span className="preco-tipo"> Pack Mensal (4 aulas)</span></td>
                   <td className="preco-valor">65€</td>
                 </tr>
               </tbody>
             </table>
             <div className="preco-cta">
               <button className="btn-agendar sec" data-nivel="secundario" id="agendar-secundario">
-                📅 Agendar Agora
+                 Agendar Agora
               </button>
             </div>
           </div>
@@ -249,6 +245,7 @@ export default function Home() {
             <div className="member-role">Engenharia · Explicador</div>
             <div className="member-discs">
               <span className="member-disc">📐 Matemática</span>
+              <span className="member-disc">📈 MACS</span>
               <span className="member-disc">⚛️ Física</span>
               <span className="member-disc">⚛️ FQ</span>
             </div>
@@ -274,6 +271,7 @@ export default function Home() {
             <div className="member-role">Engenharia · Explicador</div>
             <div className="member-discs">
               <span className="member-disc">📐 Matemática</span>
+              <span className="member-disc">📈 MACS</span>
               <span className="member-disc">⚛️ Física</span>
               <span className="member-disc">⚛️ FQ</span>
 
@@ -345,7 +343,7 @@ export default function Home() {
           A tua primeira sessão tem 50% de desconto. Sem compromisso.
         </p>
         <button className="btn-primary" style={{ background: "white", color: "#1e40af", boxShadow: "0 4px 20px rgba(0,0,0,0.2)" }} id="cta-agendar">
-          📅 Agendar Sessão Experimental
+          Agendar Sessão Experimental
         </button>
       </section>
 
@@ -357,8 +355,7 @@ export default function Home() {
             <p className="footer-desc">Apoio escolar personalizado do 5º ao 12º ano no Porto. Estamos aqui para ajudar-te a conquistar os teus objetivos académicos.</p>
             <div className="footer-social">
               <a href="https://wa.me/351919761389" className="social-link" target="_blank" rel="noopener">💬</a>
-              <a href="#" className="social-link">📷</a>
-              <a href="#" className="social-link">💼</a>
+              
             </div>
           </div>
           <div className="footer-col">
@@ -394,7 +391,7 @@ export default function Home() {
         <div className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
           <div className="modal-header">
             <div>
-              <div className="modal-title" id="modal-title">📅 Agendar Explicação</div>
+              <div className="modal-title" id="modal-title">Agendar Explicação</div>
               <div className="modal-sub">Escolhe o teu horário — disponível em tempo real</div>
             </div>
             <button className="modal-close" id="modalClose" aria-label="Fechar">✕</button>
