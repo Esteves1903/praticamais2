@@ -281,6 +281,7 @@ section { padding: 100px 5%; }
 .sobre-card p { color: #64748b; line-height: 1.7; font-size: 0.95rem; flex: 1; }
 
 /* ─── DISCIPLINAS ─── */
+
 .disciplinas-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -291,32 +292,88 @@ section { padding: 100px 5%; }
 
 .disciplina-card {
   background: white;
-  padding: 28px 24px;
-  border-radius: 20px;
-  border: 1px solid #e2e8f0;
-  text-align: center;
-  transition: all 0.3s;
-  cursor: pointer;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1.5px solid #e2e8f0;
+  border-top: 4px solid var(--disc-color, #2563eb);
+  transition: all 0.25s;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  cursor: default;
 }
+.disciplina-card.mat { --disc-color: #2563eb; }
+.disciplina-card.fq  { --disc-color: #0891b2; }
+.disciplina-card.fis { --disc-color: #4f46e5; }
+.disciplina-card.eco { --disc-color: #059669; }
+.disciplina-card.ing { --disc-color: #7c3aed; }
+.disciplina-card.mac { --disc-color: #e11d48; }
+.disciplina-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.10); border-color: var(--disc-color, #2563eb); border-top-color: var(--disc-color, #2563eb); }
 
-.disciplina-card:hover { transform: translateY(-6px); box-shadow: var(--card-shadow-hover); border-color: var(--primary-light); }
+.disc-header { display: flex; align-items: center; gap: 14px; }
 
-.disc-icon { font-size: 2.5rem; margin-bottom: 14px; }
-.disc-name { font-weight: 800; font-size: 1rem; color: var(--dark); margin-bottom: 6px; }
-.disc-anos { font-size: 0.8rem; color: #94a3b8; font-weight: 600; }
+.disc-icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+.disciplina-card.mat .disc-icon-circle { background: #eff6ff; color: #2563eb; }
+.disciplina-card.fq  .disc-icon-circle { background: #e0f2fe; color: #0891b2; }
+.disciplina-card.fis .disc-icon-circle { background: #eef2ff; color: #4f46e5; }
+.disciplina-card.eco .disc-icon-circle { background: #dcfce7; color: #059669; }
+.disciplina-card.ing .disc-icon-circle { background: #f3e8ff; color: #7c3aed; }
+.disciplina-card.mac .disc-icon-circle { background: #fff1f2; color: #e11d48; }
+
+.disc-meta { flex: 1; }
+.disc-name { font-weight: 800; font-size: 1rem; color: var(--dark); margin-bottom: 3px; }
+.disc-anos { font-size: 0.78rem; color: #94a3b8; font-weight: 600; }
+.disc-desc { font-size: 0.875rem; color: #64748b; line-height: 1.6; margin: 0; flex: 1; }
+
+.disc-tags { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .disc-badge {
   display: inline-block;
   font-size: 0.7rem;
   font-weight: 700;
   padding: 3px 10px;
   border-radius: 50px;
-  margin-top: 10px;
 }
 .disc-badge.mat { background: #fef3c7; color: #92400e; }
 .disc-badge.fis { background: #e0f2fe; color: #0c4a6e; }
 .disc-badge.eco { background: #dcfce7; color: #14532d; }
 .disc-badge.ing { background: #f3e8ff; color: #581c87; }
 .disc-badge.mac { background: #ffe4e6; color: #9f1239; }
+.disc-exam {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 50px;
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.disc-profs { display: flex; gap: 6px; align-items: center; }
+.disc-prof {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 0.62rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #e2e8f0;
+  cursor: default;
+}
 
 /* ─── PREÇOS ─── */
 .precos-wrapper {
@@ -1007,9 +1064,9 @@ footer {
   /* Sobre */
   .sobre-card { padding: 28px 20px; }
 
-  /* Disciplinas – 2 columns still fine */
-  .disciplinas-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .disc-icon { font-size: 2rem; }
+  /* Disciplinas – 1 column on small screens */
+  .disciplinas-grid { grid-template-columns: 1fr; gap: 12px; }
+  .disc-icon-circle { width: 40px; height: 40px; }
 
   /* Preços table */
   .preco-table td { padding: 12px 16px; }
