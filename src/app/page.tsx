@@ -35,29 +35,37 @@ export default function Home() {
 
       {/* ─── HERO ─── */}
       <section className="hero">
-        <div className="hero-badge"> 5º ao 12º ano</div>
-        <h1>Domina as notas,<br />conquista o teu futuro.</h1>
-        <p>Apoio escolar personalizado com estudantes do ISEP e da FEP. Aulas online adaptadas ao teu ritmo.</p>
-        <div className="hero-ctas">
-          <a href="#" className="btn-primary" id="hero-agendar">Agendar Sessão </a>
-          <a href="#sobre" className="btn-secondary">Saber Mais →</a>
-        </div>
-        <div className="hero-stats">
-          <div className="stat">
-            <span className="stat-number">50%</span>
-            <span className="stat-label">Desconto na 1ª sessão</span>
-          </div>
-          <div className="stat">
-            <span className="stat-number">6</span>
-            <span className="stat-label">Disciplinas disponíveis</span>
-          </div>
-          <div className="stat">
-            <span className="stat-number">+2</span>
-            <span className="stat-label">Anos de Experiência</span>
-          </div>
-          <div className="stat">
-            <span className="stat-number">ISEP+FEP</span>
-            <span className="stat-label">Professores qualificados</span>
+        <div className="hero-inner">
+          <div className="hero-split">
+            {/* Texto */}
+            <div className="hero-text">
+              <div className="hero-badge">5º ao 12º ano</div>
+              <h1>Domina as notas,<br />conquista o teu futuro.</h1>
+              <p>Apoio escolar personalizado com estudantes do ISEP e da FEP. Aulas online adaptadas ao teu ritmo.</p>
+              <div className="hero-ctas">
+                <a href="#" className="btn-primary" id="hero-agendar">Agendar Sessão</a>
+                <a href="#sobre" className="btn-secondary">Saber Mais →</a>
+              </div>
+            </div>
+            {/* Stats */}
+            <div className="hero-stats-panel">
+              <div className="hero-stat-card">
+                <span className="stat-number">50%</span>
+                <span className="stat-label">Desconto na 1ª sessão</span>
+              </div>
+              <div className="hero-stat-card">
+                <span className="stat-number">6</span>
+                <span className="stat-label">Disciplinas disponíveis</span>
+              </div>
+              <div className="hero-stat-card">
+                <span className="stat-number">+2</span>
+                <span className="stat-label">Anos de Experiência</span>
+              </div>
+              <div className="hero-stat-card">
+                <span className="stat-number">ISEP+FEP</span>
+                <span className="stat-label">Professores qualificados</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
