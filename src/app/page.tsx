@@ -35,17 +35,23 @@ export default function Home() {
 
       {/* ─── HERO ─── */}
       <section className="hero">
+        <div className="hero-orb hero-orb-1" />
+        <div className="hero-orb hero-orb-2" />
         <div className="hero-inner">
           <div className="hero-split">
             {/* Texto */}
             <div className="hero-text">
-              <div className="hero-badge">5º ao 12º ano</div>
-              <h1>Domina as notas,<br />conquista o teu futuro.</h1>
+              <div className="hero-badge">
+                <span className="badge-dot" />
+                5º ao 12º ano
+              </div>
+              <h1>Domina as <span className="hero-accent">notas</span>,<br />conquista o teu futuro.</h1>
               <p>Apoio escolar personalizado com estudantes do ISEP e da FEP. Aulas online adaptadas ao teu ritmo.</p>
               <div className="hero-ctas">
                 <a href="#" className="btn-primary" id="hero-agendar">Agendar Sessão</a>
                 <a href="#sobre" className="btn-secondary">Saber Mais →</a>
               </div>
+              <p className="hero-micro">Sem compromisso · 1ª sessão com 50% desconto</p>
             </div>
             {/* Stats */}
             <div className="hero-stats-panel">
@@ -67,6 +73,9 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+        <div className="hero-scroll">
+          <div className="hero-scroll-line" />
         </div>
       </section>
 

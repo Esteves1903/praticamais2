@@ -142,6 +142,78 @@ body {
   box-shadow: 0 12px 32px rgba(0,0,0,0.2);
 }
 
+/* ── Orbs decorativos */
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-orb-1 {
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, rgba(59,130,246,0.22), transparent 70%);
+  top: -160px; right: 8%;
+}
+.hero-orb-2 {
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(124,58,237,0.18), transparent 70%);
+  bottom: -80px; left: 4%;
+}
+
+/* ── Badge dot pulsante */
+.badge-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  flex-shrink: 0;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.7); }
+  50%       { box-shadow: 0 0 0 6px rgba(74,222,128,0); }
+}
+
+/* ── Palavra em destaque no h1 */
+.hero-accent {
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Micro-copy abaixo dos CTAs */
+.hero-micro {
+  font-size: 0.76rem;
+  color: rgba(255,255,255,0.38);
+  margin-top: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+/* ── Scroll indicator */
+.hero-scroll {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero-scroll-line {
+  width: 1.5px;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.55), rgba(255,255,255,0));
+  animation: scroll-fade 2.4s ease-in-out infinite;
+  transform-origin: top;
+}
+@keyframes scroll-fade {
+  0%, 100% { opacity: 0.25; transform: scaleY(0.35); }
+  60%       { opacity: 0.85; transform: scaleY(1); }
+}
+
 .hero-badge {
   display: inline-flex;
   align-items: center;
@@ -178,6 +250,7 @@ body {
   margin: 0 auto 40px;
   line-height: 1.7;
 }
+.hero-text p { margin-left: 0; margin-right: 0; }
 
 .hero-ctas {
   display: flex;
@@ -1043,9 +1116,11 @@ footer {
   .hero-inner { padding: 80px 5% 64px; }
   .hero-split { grid-template-columns: 1fr; gap: 40px; }
   .hero-text { text-align: center; }
+  .hero-text p { margin-left: auto; margin-right: auto; }
   .hero-text .hero-ctas { justify-content: center; }
   .hero p { font-size: 1.05rem; }
   .stat-number { font-size: 1.7rem; }
+  .hero-scroll { display: none; }
 
   /* Sobre */
   .sobre-grid { gap: 16px; }
