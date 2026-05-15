@@ -103,43 +103,112 @@ export default function Home() {
           <h2 className="section-title">Disciplinas Disponíveis</h2>
           <p className="section-sub">Cobertura completa das disciplinas mais exigidas do ensino básico e secundário.</p>
         </div>
-        <div className="disciplinas-grid">
-          <div className="disciplina-card fade-in">
-            <div className="disc-icon">📐</div>
-            <div className="disc-name">Matemática</div>
-            <div className="disc-anos">5º ao 12º ano</div>
-            <span className="disc-badge mat">Matemática A/B</span>
+        <div className="disciplinas-grid" id="disciplinasGrid">
+          <div className="disciplina-card mat fade-in" data-nivel="ambos">
+            <div className="disc-header">
+              <div className="disc-icon-circle">MAT</div>
+              <div className="disc-meta">
+                <div className="disc-name">Matemática</div>
+                <div className="disc-anos">5º ao 12º ano</div>
+              </div>
+            </div>
+            <p className="disc-desc">Álgebra, geometria, funções e cálculo. Do ensino básico ao 12.º ano com exame nacional.</p>
+            <div className="disc-tags">
+              <span className="disc-badge mat">Mat. A / Mat. B</span>
+              <span className="disc-exam">Exame Nacional</span>
+            </div>
+            <div className="disc-profs">
+              <span className="disc-prof" title="José Mário">JM</span>
+              <span className="disc-prof" title="Diogo Magalhães">DM</span>
+            </div>
           </div>
-          <div className="disciplina-card fade-in">
-            <div className="disc-icon">⚛️</div>
-            <div className="disc-name">Física e Química</div>
-            <div className="disc-anos">7º ao 9º ano</div>
-            <span className="disc-badge fis">FQ</span>
+          <div className="disciplina-card fq fade-in" data-nivel="basico">
+            <div className="disc-header">
+              <div className="disc-icon-circle">FQ</div>
+              <div className="disc-meta">
+                <div className="disc-name">Física e Química</div>
+                <div className="disc-anos">7º ao 9º ano</div>
+              </div>
+            </div>
+            <p className="disc-desc">Fundamentos da física e química aplicados ao ensino básico. Preparação sólida para o secundário.</p>
+            <div className="disc-tags">
+              <span className="disc-badge fis">FQ</span>
+            </div>
+            <div className="disc-profs">
+              <span className="disc-prof" title="José Mário">JM</span>
+              <span className="disc-prof" title="Diogo Magalhães">DM</span>
+            </div>
           </div>
-          <div className="disciplina-card fade-in">
-            <div className="disc-icon">🔬</div>
-            <div className="disc-name">Física</div>
-            <div className="disc-anos">12º ano</div>
-            <span className="disc-badge fis">F</span>
+          <div className="disciplina-card fis fade-in" data-nivel="secundario">
+            <div className="disc-header">
+              <div className="disc-icon-circle">FIS</div>
+              <div className="disc-meta">
+                <div className="disc-name">Física</div>
+                <div className="disc-anos">12º ano</div>
+              </div>
+            </div>
+            <p className="disc-desc">Mecânica, eletromagnetismo e ondas. Preparação intensiva para o exame nacional.</p>
+            <div className="disc-tags">
+              <span className="disc-badge fis">Física A</span>
+              <span className="disc-exam">Exame Nacional</span>
+            </div>
+            <div className="disc-profs">
+              <span className="disc-prof" title="José Mário">JM</span>
+              <span className="disc-prof" title="Diogo Magalhães">DM</span>
+            </div>
           </div>
-
-          <div className="disciplina-card fade-in">
-            <div className="disc-icon">📊</div>
-            <div className="disc-name">Economia</div>
-            <div className="disc-anos">10º ao 12º ano</div>
-            <span className="disc-badge eco">ECO</span>
+          <div className="disciplina-card eco fade-in" data-nivel="secundario">
+            <div className="disc-header">
+              <div className="disc-icon-circle">ECO</div>
+              <div className="disc-meta">
+                <div className="disc-name">Economia</div>
+                <div className="disc-anos">10º ao 12º ano</div>
+              </div>
+            </div>
+            <p className="disc-desc">Micro e macroeconomia, mercados e finanças. Análise crítica para o exame nacional.</p>
+            <div className="disc-tags">
+              <span className="disc-badge eco">Economia A</span>
+              <span className="disc-exam">Exame Nacional</span>
+            </div>
+            <div className="disc-profs">
+              <span className="disc-prof" title="Manuel Silva">MS</span>
+            </div>
           </div>
-          <div className="disciplina-card fade-in">
-            <div className="disc-icon">🌍</div>
-            <div className="disc-name">Inglês</div>
-            <div className="disc-anos">5º ao 12º ano</div>
-            <span className="disc-badge ing">ENG</span>
+          <div className="disciplina-card ing fade-in" data-nivel="ambos">
+            <div className="disc-header">
+              <div className="disc-icon-circle">ENG</div>
+              <div className="disc-meta">
+                <div className="disc-name">Inglês</div>
+                <div className="disc-anos">5º ao 12º ano</div>
+              </div>
+            </div>
+            <p className="disc-desc">Compreensão oral e escrita, gramática e vocabulário. Domínio completo em todos os níveis.</p>
+            <div className="disc-tags">
+              <span className="disc-badge ing">Inglês</span>
+              <span className="disc-exam">Exame Nacional</span>
+            </div>
+            <div className="disc-profs">
+              <span className="disc-prof" title="Manuel Silva">MS</span>
+            </div>
           </div>
-          <div className="disciplina-card fade-in">
-            <div className="disc-icon">📈</div>
-            <div className="disc-name">MACS</div>
-            <div className="disc-anos">10º ao 12º ano</div>
-            <span className="disc-badge mac">MACS</span>
+          <div className="disciplina-card mac fade-in" data-nivel="secundario">
+            <div className="disc-header">
+              <div className="disc-icon-circle">MACS</div>
+              <div className="disc-meta">
+                <div className="disc-name">MACS</div>
+                <div className="disc-anos">10º ao 12º ano</div>
+              </div>
+            </div>
+            <p className="disc-desc">Matemática Aplicada às Ciências Sociais. Estatística, probabilidades e análise financeira.</p>
+            <div className="disc-tags">
+              <span className="disc-badge mac">MACS</span>
+              <span className="disc-exam">Exame Nacional</span>
+            </div>
+            <div className="disc-profs">
+              <span className="disc-prof" title="José Mário">JM</span>
+              <span className="disc-prof" title="Diogo Magalhães">DM</span>
+              <span className="disc-prof" title="Manuel Silva">MS</span>
+            </div>
           </div>
         </div>
       </section>
