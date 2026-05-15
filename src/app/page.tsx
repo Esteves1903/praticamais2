@@ -132,9 +132,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="hero-scroll">
-          <div className="hero-scroll-line" />
-        </div>
+
       </section>
 
       {/* ─── SOBRE ─── */}
