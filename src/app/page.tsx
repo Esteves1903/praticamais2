@@ -493,7 +493,7 @@ export default function Home() {
                     <option value="mensal">Pack Mensal</option>
                   </select>
                   <div id="expWarning" style={{ display: "none", marginTop: "6px", fontSize: "13px", color: "#dc2626", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: "8px", padding: "8px 12px" }}>
-                    ⚠️ Já tens uma sessão experimental registada. Cada aluno só pode usufruir de uma sessão experimental.
+                    Já tens uma sessão experimental registada. Cada aluno só pode usufruir de uma sessão experimental.
                   </div>
                 </div>
               </div>
@@ -502,7 +502,7 @@ export default function Home() {
               <div className="form-group" id="slotGroup">
                 <label className="form-label">Horário disponível <span>*</span></label>
                 <div id="noSlotMsg" style={{ display: "none", padding: "16px", background: "#f0f9ff", border: "1.5px solid #bae6fd", borderRadius: "12px", color: "#0369a1", fontSize: "14px" }}>
-                  📅 O horário do Pack Mensal é combinado diretamente com o teu professor após a marcação.
+                   O horário do Pack Mensal é combinado diretamente com o teu professor após a marcação.
                 </div>
                 <div className="calendar-section" id="calendarSection">
                   <div className="week-nav">
@@ -514,11 +514,11 @@ export default function Home() {
                     {/* Days rendered by JS */}
                   </div>
                   <div id="slotsContainer">
-                    <div className="slots-loading">🔄 A carregar horários disponíveis...</div>
+                    <div className="slots-loading">A carregar horários disponíveis...</div>
                   </div>
                 </div>
                 <div className="selected-slot-display" id="selectedSlotDisplay" style={{ display: "none" }}>
-                  ✅ <strong id="selectedSlotText"></strong>
+                  <strong id="selectedSlotText"></strong>
                   <span style={{ marginLeft: "auto" }}>
                     <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "#64748b", fontSize: "0.85rem" }} id="clearSlot">Alterar</button>
                   </span>
@@ -548,7 +548,7 @@ export default function Home() {
               <div className="form-error" id="formError"></div>
 
               <button type="submit" className="btn-submit" id="submitBtn">
-                <span id="submitText">✅ Confirmar Agendamento</span>
+                <span id="submitText">Confirmar Agendamento</span>
               </button>
             </form>
 
@@ -678,7 +678,7 @@ export default function Home() {
               }
             } else {
               document.getElementById('slotsContainer').innerHTML =
-                '<div class="no-slots" style="padding:16px;color:#94a3b8;text-align:center;">👆 Seleciona um dia para ver os horários disponíveis</div>';
+                '<div class="no-slots" style="padding:16px;color:#94a3b8;text-align:center;">Seleciona um dia para ver os horários disponíveis</div>';
             }
           }
 
@@ -1054,13 +1054,13 @@ export default function Home() {
 
             const telefoneLimpo = telefone.replace(/\\s/g, '');
             if (!/^(\\+351)?[926]\\d{8}$/.test(telefoneLimpo)) {
-              errorEl.textContent = '⚠️ Número de telefone inválido. Exemplo: +351 912 345 678 ou 912345678.';
+              errorEl.textContent = 'Número de telefone inválido. Exemplo: +351 912 345 678 ou 912345678.';
               errorEl.classList.add('visible');
               return;
             }
 
             if (!selectedSlot && tipo !== 'mensal') {
-              errorEl.textContent = '⚠️ Por favor seleciona um horário disponível.';
+              errorEl.textContent = 'Por favor seleciona um horário disponível.';
               errorEl.classList.add('visible');
               return;
             }
@@ -1068,7 +1068,7 @@ export default function Home() {
             const submitBtn = document.getElementById('submitBtn');
             const submitText = document.getElementById('submitText');
             submitBtn.disabled = true;
-            submitText.textContent = '⏳ A confirmar...';
+            submitText.textContent = 'A confirmar...';
 
             try {
               const res = await fetch('/api/agendar', {
@@ -1080,7 +1080,7 @@ export default function Home() {
               const data = await res.json();
 
               if (!res.ok) {
-                errorEl.textContent = '❌ ' + (data.error || 'Erro ao agendar. Tenta novamente.');
+                errorEl.textContent = '❌' + (data.error || 'Erro ao agendar. Tenta novamente.');
                 errorEl.classList.add('visible');
                 // Refresh slots in case it was a conflict
                 if (res.status === 409) {
@@ -1100,7 +1100,7 @@ export default function Home() {
               errorEl.classList.add('visible');
             } finally {
               submitBtn.disabled = false;
-              submitText.textContent = '✅ Confirmar Agendamento';
+              submitText.textContent = 'Confirmar Agendamento';
             }
           });
 
