@@ -1,122 +1,66 @@
 "use client";
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": ["EducationalOrganization", "LocalBusiness"],
-      "@id": "https://praticamais.pt/#organization",
-      "name": "Pratica+",
-      "alternateName": "Pratica Mais",
-      "url": "https://praticamais.pt",
-      "logo": "https://praticamais.pt/icon.png",
-      "image": "https://praticamais.pt/hero.png",
-      "description": "Explicações online personalizadas do 5º ao 12º ano em Porto. Matemática, Física, Economia, MACS e Inglês com explicadores do ISEP e da FEP.",
-      "telephone": "+351919761389",
-      "email": "pratica.mais.26@gmail.com",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Porto",
-        "addressRegion": "Porto",
-        "addressCountry": "PT"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "41.1579",
-        "longitude": "-8.6291"
-      },
-      "areaServed": {
-        "@type": "Country",
-        "name": "Portugal"
-      },
-      "priceRange": "€€",
-      "currenciesAccepted": "EUR",
-      "paymentAccepted": "MBway",
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-          "opens": "09:00",
-          "closes": "22:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Saturday",
-          "opens": "09:00",
-          "closes": "18:00"
-        }
-      ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Explicações Online",
-        "itemListElement": [
-          { "@type": "Offer", "itemOffered": { "@type": "Course", "name": "Explicações de Matemática", "description": "Apoio em Matemática do 5º ao 12º ano, incluindo Matemática A e B para exame nacional." } },
-          { "@type": "Offer", "itemOffered": { "@type": "Course", "name": "Explicações de Física e Química", "description": "Apoio em Física e Química do 7º ao 9º ano." } },
-          { "@type": "Offer", "itemOffered": { "@type": "Course", "name": "Explicações de Física", "description": "Preparação para o exame nacional de Física do 12º ano." } },
-          { "@type": "Offer", "itemOffered": { "@type": "Course", "name": "Explicações de Economia", "description": "Apoio em Economia do 10º ao 12º ano." } },
-          { "@type": "Offer", "itemOffered": { "@type": "Course", "name": "Explicações de Inglês", "description": "Apoio em Inglês do 5º ao 12º ano." } },
-          { "@type": "Offer", "itemOffered": { "@type": "Course", "name": "Explicações de MACS", "description": "Apoio em Matemática Aplicada às Ciências Sociais do 10º ao 12º ano." } }
-        ]
-      },
-      "sameAs": [
-        "https://wa.me/351919761389"
-      ]
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://praticamais.pt/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "O que é o Pratica+?",
-          "acceptedAnswer": { "@type": "Answer", "text": "O Pratica+ é um projeto de apoio escolar focado em resultados, criado por estudantes do ISEP e da FEP para ajudar alunos do 5º ao 12º ano a superar dificuldades e subir as notas." }
-        },
-        {
-          "@type": "Question",
-          "name": "Como funciona o agendamento de explicações?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Basta clicar no botão 'Agendar' e escolher um horário disponível no calendário online. Após a reserva, receberás uma confirmação. Os horários são retirados automaticamente assim que forem reservados." }
-        },
-        {
-          "@type": "Question",
-          "name": "As aulas são presenciais ou online?",
-          "acceptedAnswer": { "@type": "Answer", "text": "As aulas são online e focadas na resolução de exercícios práticos e esclarecimento de dúvidas. Usamos plataformas como Zoom ou Google Meet." }
-        },
-        {
-          "@type": "Question",
-          "name": "Quanto custam as explicações?",
-          "acceptedAnswer": { "@type": "Answer", "text": "A sessão experimental tem 50% desconto (5€ no básico, 7.50€ no secundário). Aulas individuais a 10€/h no ensino básico e 15€/h no ensino secundário. Pack mensal com 4 aulas a 45€ (básico) ou 65€ (secundário)." }
-        },
-        {
-          "@type": "Question",
-          "name": "Como é feito o pagamento das explicações?",
-          "acceptedAnswer": { "@type": "Answer", "text": "O pagamento é feito através do MBway após confirmação da marcação da aula com o professor." }
-        },
-        {
-          "@type": "Question",
-          "name": "O que inclui o Pack Mensal?",
-          "acceptedAnswer": { "@type": "Answer", "text": "O Pack Mensal inclui 4 aulas individuais mais acompanhamento online sempre que surjam dúvidas ao longo do mês." }
-        }
-      ]
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://praticamais.pt/#website",
-      "url": "https://praticamais.pt",
-      "name": "Pratica+",
-      "description": "Explicações online personalizadas do 5º ao 12º ano em Porto",
-      "inLanguage": "pt-PT",
-      "publisher": { "@id": "https://praticamais.pt/#organization" }
-    }
-  ]
-};
+import { useEffect } from "react";
+import Script from "next/script";
 
 export default function Home() {
+  useEffect(() => {
+    const heroPanel = document.querySelector(".hero-stats-panel");
+    if (!heroPanel) return;
+
+    function animateCount(
+      el: Element,
+      target: number,
+      prefix: string,
+      suffix: string,
+      duration: number
+    ) {
+      const t0 = performance.now();
+      function step(now: number) {
+        const p = Math.min((now - t0) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = prefix + Math.round(eased * target) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    let triggered = false;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !triggered) {
+          triggered = true;
+          heroPanel.querySelectorAll(".stat-number").forEach((el, i) => {
+            const raw = (el.textContent || "").trim();
+            const delay = i * 150;
+            if (raw === "ISEP+FEP") {
+              (el as HTMLElement).style.opacity = "0";
+              setTimeout(() => {
+                (el as HTMLElement).style.transition = "opacity 0.8s ease";
+                (el as HTMLElement).style.opacity = "1";
+              }, delay);
+              return;
+            }
+            const prefix = raw.startsWith("+") ? "+" : "";
+            const suffix = raw.endsWith("%") ? "%" : "";
+            const num = parseInt(raw.replace("+", "").replace("%", ""), 10);
+            if (!isNaN(num)) {
+              el.textContent = prefix + "0" + suffix;
+              setTimeout(() => animateCount(el, num, prefix, suffix, 1800), delay);
+            }
+          });
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(heroPanel);
+    return () => observer.disconnect();
+  }, []);
+
+
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
       {/* ─── NAVBAR ─── */}
       <nav className="navbar">
         <a href="#" className="logo">
@@ -765,7 +709,7 @@ export default function Home() {
       </div>
 
       {/* ─── CLIENT SCRIPTS ─── */}
-      <script dangerouslySetInnerHTML={{ __html: `
+      <Script dangerouslySetInnerHTML={{ __html: `
         (function() {
           function $(id) { return document.getElementById(id); }
           function on(id, ev, fn) { const el = $(id); if (el) el.addEventListener(ev, fn); }
@@ -1366,7 +1310,7 @@ export default function Home() {
           }, { threshold: 0.1 });
           document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
         })();
-      `}} />
+      `}} strategy="afterInteractive" id="page-scripts" />
     </>
   );
 }
