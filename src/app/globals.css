@@ -176,7 +176,7 @@ body {
 
 /* ── Palavra em destaque no h1 */
 .hero-accent {
-  background: linear-gradient(135deg, #f97316, #fb923c);
+  background: linear-gradient(135deg, #1665f9, #3c8ffbc5);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
