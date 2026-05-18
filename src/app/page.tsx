@@ -100,7 +100,6 @@ export default function Home() {
             {/* Texto */}
             <div className="hero-text">
               <div className="hero-badge">
-                <span className="badge-dot" />
                 5º ao 12º ano
               </div>
               <h1>Domina as <span className="hero-accent">notas</span>,<br />conquista o teu futuro.</h1>
