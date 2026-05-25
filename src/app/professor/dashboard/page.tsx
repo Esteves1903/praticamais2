@@ -129,7 +129,7 @@ export default function ProfDashboard() {
     if (slotsByDay[key]) slotsByDay[key].push(s);
   });
 
-  const s: Record<string, React.CSSProperties> = {
+  const s = {
     page: { minHeight: "100vh", background: "#f8fafc", fontFamily: "'Inter', sans-serif" },
     nav: {
       background: "white", borderBottom: "1px solid #e2e8f0", padding: "0 5%",
