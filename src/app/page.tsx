@@ -750,6 +750,13 @@ export default function Home() {
             renderWeek();
           }
 
+          // ── Slots filtered by selected professor
+          function getActiveSlots() {
+            const prof = document.getElementById('f-professor')?.value || '';
+            if (!prof || prof === 'Sem preferência') return allSlots;
+            return allSlots.filter(s => s.professor === prof);
+          }
+
           // ── Get week dates (Mon-Sat)
           function getWeekDates(offset) {
             const now = new Date();
@@ -780,13 +787,22 @@ export default function Home() {
             const last = dates[dates.length-1];
             weekLabel.textContent = first.getDate() + ' ' + MONTHS_PT[first.getMonth()] + ' – ' + last.getDate() + ' ' + MONTHS_PT[last.getMonth()];
 
+            const prof = document.getElementById('f-professor')?.value || '';
+            if (!prof) {
+              daysRow.innerHTML = '';
+              document.getElementById('slotsContainer').innerHTML =
+                '<div class="no-slots" style="padding:16px;color:#94a3b8;text-align:center;">Seleciona um professor para ver os horários disponíveis</div>';
+              return;
+            }
+
+            const activeSlots = getActiveSlots();
             daysRow.innerHTML = '';
             dates.forEach((date, i) => {
               const dateStr = date.getFullYear() + '-' +
                 String(date.getMonth()+1).padStart(2,'0') + '-' +
                 String(date.getDate()).padStart(2,'0');
               const _now = new Date();
-              const daySlots = allSlots.filter(s => s.slot.startsWith(dateStr) && parseSlot(s.slot) > _now);
+              const daySlots = activeSlots.filter(s => s.slot.startsWith(dateStr) && parseSlot(s.slot) > _now);
               const count = daySlots.length;
 
               const btn = document.createElement('button');
@@ -837,7 +853,7 @@ export default function Home() {
           function renderSlots(dateStr) {
             const container = document.getElementById('slotsContainer');
             const now = new Date();
-            const daySlots = allSlots.filter(s => s.slot.startsWith(dateStr) && parseSlot(s.slot) > now);
+            const daySlots = getActiveSlots().filter(s => s.slot.startsWith(dateStr) && parseSlot(s.slot) > now);
 
             if (daySlots.length === 0) {
               container.innerHTML = '<div class="no-slots">Sem horários disponíveis neste dia.</div>';
@@ -929,6 +945,15 @@ export default function Home() {
           }
           on('f-nivel',     'change', updateDiscOptions);
           on('f-professor', 'change', updateDiscOptions);
+          on('f-professor', 'change', () => {
+            selectedSlot = null;
+            selectedDayIndex = null;
+            document.getElementById('selectedSlotDisplay').style.display = 'none';
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('line2').classList.remove('active');
+            document.getElementById('emailVerifSection').style.display = 'none';
+            renderWeek();
+          });
 
           // ── Hide calendar for Pack Mensal
           on('f-tipo', 'change', () => {

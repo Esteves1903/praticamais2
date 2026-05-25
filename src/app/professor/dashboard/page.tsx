@@ -45,9 +45,10 @@ export default function ProfDashboard() {
   const [loading, setLoading] = useState(true);
   const [weekOffset, setWeekOffset] = useState(0);
   const [addDate, setAddDate] = useState("");
-  const [addHour, setAddHour] = useState("09");
+  const [addHours, setAddHours] = useState<string[]>([]);
   const [adding, setAdding] = useState(false);
   const [addError, setAddError] = useState("");
+  const [addSuccess, setAddSuccess] = useState("");
 
   async function loadData() {
     const [sRes, aRes] = await Promise.all([
@@ -81,24 +82,46 @@ export default function ProfDashboard() {
     router.push("/professor/login");
   }
 
-  async function addSlot() {
+  function toggleHour(h: string) {
+    setAddHours(prev =>
+      prev.includes(h) ? prev.filter(x => x !== h) : [...prev, h]
+    );
+  }
+
+  async function addSlots() {
     setAddError("");
+    setAddSuccess("");
     if (!addDate) { setAddError("Escolhe uma data"); return; }
-    const slot = `${addDate}T${addHour}:00`;
+    if (addHours.length === 0) { setAddError("Seleciona pelo menos uma hora"); return; }
+
+    const existingForDay = slots
+      .filter(s => s.slot.startsWith(addDate))
+      .map(s => s.slot.split("T")[1].slice(0, 2));
+
+    const toAdd = addHours.filter(h => !existingForDay.includes(h));
+    if (toAdd.length === 0) { setAddError("Todos esses horários já existem"); return; }
+
     setAdding(true);
-    const res = await fetch("/api/professor/slots", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slot }),
-    });
+    const results = await Promise.all(
+      toAdd.map(h =>
+        fetch("/api/professor/slots", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ slot: `${addDate}T${h}:00` }),
+        }).then(r => r.ok ? r.json() : null)
+      )
+    );
     setAdding(false);
-    if (res.ok) {
-      const data = await res.json();
-      setSlots(prev => [...prev, data].sort((a, b) => a.slot.localeCompare(b.slot)));
-      setAddDate("");
-    } else {
-      const d = await res.json();
-      setAddError(d.error || "Erro ao adicionar");
+
+    const added = results.filter(Boolean);
+    if (added.length > 0) {
+      setSlots(prev => [...prev, ...added].sort((a, b) => a.slot.localeCompare(b.slot)));
+      setAddHours([]);
+      setAddSuccess(`${added.length} horário${added.length > 1 ? "s" : ""} adicionado${added.length > 1 ? "s" : ""}!`);
+      setTimeout(() => setAddSuccess(""), 3000);
+    }
+    if (added.length < toAdd.length) {
+      setAddError(`${toAdd.length - added.length} horário(s) falharam`);
     }
   }
 
@@ -207,37 +230,84 @@ export default function ProfDashboard() {
               <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", marginBottom: 20 }}>
                 Adicionar Horário
               </h2>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <div>
                   <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "#64748b", marginBottom: 6 }}>Data</label>
                   <input
                     type="date"
                     value={addDate}
-                    onChange={e => setAddDate(e.target.value)}
+                    onChange={e => { setAddDate(e.target.value); setAddHours([]); setAddError(""); setAddSuccess(""); }}
                     min={new Date().toISOString().split("T")[0]}
                     style={{ padding: "10px 14px", borderRadius: 10, border: "1.5px solid #e2e8f0", fontSize: "0.9rem" }}
                   />
                 </div>
+
                 <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "#64748b", marginBottom: 6 }}>Hora</label>
-                  <select
-                    value={addHour}
-                    onChange={e => setAddHour(e.target.value)}
-                    style={{ padding: "10px 14px", borderRadius: 10, border: "1.5px solid #e2e8f0", fontSize: "0.9rem" }}
-                  >
-                    {HOURS.map(h => <option key={h} value={h}>{h}:00</option>)}
-                  </select>
+                  <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "#64748b", marginBottom: 10 }}>
+                    Horas — clica para selecionar
+                    {addHours.length > 0 && (
+                      <span style={{ marginLeft: 10, background: "#1e40af", color: "white", borderRadius: 50, padding: "2px 9px", fontSize: "0.75rem" }}>
+                        {addHours.length} selecionada{addHours.length > 1 ? "s" : ""}
+                      </span>
+                    )}
+                  </label>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                    {HOURS.map(h => {
+                      const alreadyExists = addDate
+                        ? slots.some(s => s.slot.startsWith(addDate) && s.slot.split("T")[1].slice(0, 2) === h)
+                        : false;
+                      const selected = addHours.includes(h);
+                      return (
+                        <button
+                          key={h}
+                          type="button"
+                          disabled={alreadyExists}
+                          onClick={() => toggleHour(h)}
+                          style={{
+                            padding: "7px 13px", borderRadius: 8, border: "2px solid",
+                            fontSize: "0.85rem", fontWeight: 700, cursor: alreadyExists ? "default" : "pointer",
+                            transition: "all 0.15s",
+                            borderColor: alreadyExists ? "#e2e8f0" : selected ? "#1e40af" : "#cbd5e1",
+                            background: alreadyExists ? "#f1f5f9" : selected ? "#1e40af" : "white",
+                            color: alreadyExists ? "#94a3b8" : selected ? "white" : "#475569",
+                          }}
+                          title={alreadyExists ? "Já existe" : ""}
+                        >
+                          {h}:00{alreadyExists ? " ✓" : ""}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-                <button
-                  onClick={addSlot}
-                  disabled={adding}
-                  style={{ ...s.btn("#1e40af"), padding: "11px 22px", borderRadius: 10, fontSize: "0.9rem" }}
-                >
-                  {adding ? "A adicionar..." : "+ Adicionar"}
-                </button>
+
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <button
+                    onClick={addSlots}
+                    disabled={adding || addHours.length === 0}
+                    style={{
+                      ...s.btn("#1e40af"), padding: "11px 24px", borderRadius: 10, fontSize: "0.9rem",
+                      opacity: adding || addHours.length === 0 ? 0.5 : 1,
+                      cursor: adding || addHours.length === 0 ? "default" : "pointer",
+                    }}
+                  >
+                    {adding ? "A adicionar..." : `+ Adicionar${addHours.length > 1 ? ` ${addHours.length} horários` : " horário"}`}
+                  </button>
+                  {addHours.length > 0 && (
+                    <button
+                      onClick={() => setAddHours([])}
+                      style={{ background: "none", border: "none", color: "#94a3b8", cursor: "pointer", fontSize: "0.83rem" }}
+                    >
+                      Limpar seleção
+                    </button>
+                  )}
+                </div>
               </div>
+
               {addError && (
                 <p style={{ color: "#dc2626", fontSize: "0.83rem", marginTop: 10 }}>{addError}</p>
+              )}
+              {addSuccess && (
+                <p style={{ color: "#16a34a", fontSize: "0.83rem", marginTop: 10, fontWeight: 600 }}>{addSuccess}</p>
               )}
             </div>
 
