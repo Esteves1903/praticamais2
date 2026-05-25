@@ -39,7 +39,7 @@ function dateToStr(d: Date) {
 export default function ProfDashboard() {
   const router = useRouter();
   const [profName, setProfName] = useState("");
-  const [tab, setTab] = useState<"horarios" | "agendamentos">("horarios");
+  const [tab, setTab] = useState<"horarios" | "agendamentos" | "semanal">("horarios");
   const [slots, setSlots] = useState<Slot[]>([]);
   const [agendamentos, setAgendamentos] = useState<Agendamento[]>([]);
   const [loading, setLoading] = useState(true);
@@ -49,6 +49,10 @@ export default function ProfDashboard() {
   const [adding, setAdding] = useState(false);
   const [addError, setAddError] = useState("");
   const [addSuccess, setAddSuccess] = useState("");
+  const [weekTemplate, setWeekTemplate] = useState<Record<number, string[]>>({});
+  const [applyWeeks, setApplyWeeks] = useState(4);
+  const [applying, setApplying] = useState(false);
+  const [applyResult, setApplyResult] = useState("");
 
   async function loadData() {
     const [sRes, aRes] = await Promise.all([
@@ -75,6 +79,10 @@ export default function ProfDashboard() {
 
   useEffect(() => {
     Promise.all([loadData(), loadProfName()]).finally(() => setLoading(false));
+    try {
+      const saved = localStorage.getItem("prof-week-template");
+      if (saved) setWeekTemplate(JSON.parse(saved));
+    } catch {}
   }, []);
 
   async function logout() {
@@ -133,6 +141,80 @@ export default function ProfDashboard() {
       const d = await res.json();
       alert(d.error || "Não foi possível remover");
     }
+  }
+
+  async function clearDay(dateStr: string) {
+    const dayFree = slots.filter(s => s.slot.startsWith(dateStr) && !s.agendamento_id);
+    if (dayFree.length === 0) return;
+    if (!confirm(`Remover ${dayFree.length} horário(s) livre(s) de ${dateStr}?`)) return;
+    await Promise.all(dayFree.map(s => fetch(`/api/professor/slots/${s.id}`, { method: "DELETE" })));
+    setSlots(prev => prev.filter(s => !dayFree.find(d => d.id === s.id)));
+  }
+
+  function toggleTemplateHour(day: number, hour: string) {
+    setWeekTemplate(prev => {
+      const hours = prev[day] || [];
+      const next = {
+        ...prev,
+        [day]: hours.includes(hour) ? hours.filter(h => h !== hour) : [...hours, hour],
+      };
+      try { localStorage.setItem("prof-week-template", JSON.stringify(next)); } catch {}
+      return next;
+    });
+  }
+
+  async function applyWeekTemplate() {
+    const totalHours = Object.values(weekTemplate).flat().length;
+    if (totalHours === 0) { setApplyResult("Define primeiro um horário semanal."); return; }
+
+    setApplying(true);
+    setApplyResult("");
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const daysToMon = (today.getDay() + 6) % 7;
+    const currentMon = new Date(today);
+    currentMon.setDate(today.getDate() - daysToMon);
+
+    const toCreate: string[] = [];
+    for (let week = 0; week < applyWeeks; week++) {
+      for (const [dayStr, hours] of Object.entries(weekTemplate)) {
+        const dayNum = parseInt(dayStr); // 1=Seg … 6=Sáb
+        const date = new Date(currentMon);
+        date.setDate(currentMon.getDate() + week * 7 + (dayNum - 1));
+        if (date < today) continue;
+        const dateStr = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+        for (const hour of hours) {
+          const slotStr = `${dateStr}T${hour}:00`;
+          if (!slots.some(s => s.slot === slotStr)) toCreate.push(slotStr);
+        }
+      }
+    }
+
+    const results = await Promise.all(
+      toCreate.map(slot =>
+        fetch("/api/professor/slots", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ slot }),
+        }).then(r => r.ok ? r.json() : null)
+      )
+    );
+
+    const created = results.filter(Boolean);
+    if (created.length > 0)
+      setSlots(prev => [...prev, ...created].sort((a, b) => a.slot.localeCompare(b.slot)));
+
+    setApplying(false);
+    const skipped = toCreate.length - created.length;
+    setApplyResult(
+      created.length > 0
+        ? `✓ ${created.length} horário(s) criado(s)${skipped > 0 ? ` · ${skipped} já existiam` : ""}.`
+        : toCreate.length === 0
+          ? "Todos os horários já existem para este período."
+          : `${skipped} horário(s) já existiam, nada criado.`
+    );
+    setTimeout(() => setApplyResult(""), 6000);
   }
 
   const weekDates = getWeekDates(weekOffset);
@@ -213,6 +295,7 @@ export default function ProfDashboard() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 8, marginBottom: 28, background: "#f1f5f9", borderRadius: 50, padding: 4, width: "fit-content" }}>
           <button style={s.tab(tab === "horarios")} onClick={() => setTab("horarios")}>📅 Horários</button>
+          <button style={s.tab(tab === "semanal")} onClick={() => setTab("semanal")}>🔁 Semanal</button>
           <button style={s.tab(tab === "agendamentos")} onClick={() => setTab("agendamentos")}>
             📋 Marcações {agendamentos.filter(a => !a.confirmado).length > 0 && (
               <span style={{ background: "#ef4444", color: "white", borderRadius: 50, padding: "1px 7px", fontSize: "0.75rem", marginLeft: 6 }}>
@@ -336,8 +419,17 @@ export default function ProfDashboard() {
                   const isPast = date < new Date(new Date().setHours(0,0,0,0));
                   return (
                     <div key={key} style={{ ...s.dayCol, opacity: isPast ? 0.6 : 1 }}>
-                      <div style={{ fontWeight: 700, fontSize: "0.82rem", color: "#475569", marginBottom: 10 }}>
-                        {DAYS_PT[date.getDay()]} {date.getDate()}
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                        <span style={{ fontWeight: 700, fontSize: "0.82rem", color: "#475569" }}>
+                          {DAYS_PT[date.getDay()]} {date.getDate()}
+                        </span>
+                        {!isPast && daySlots.some(s => !s.agendamento_id) && (
+                          <button
+                            onClick={() => clearDay(key)}
+                            title="Limpar dia"
+                            style={{ background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: "0.7rem", padding: 0, lineHeight: 1 }}
+                          >🗑</button>
+                        )}
                       </div>
                       {daySlots.length === 0 && (
                         <div style={{ fontSize: "0.75rem", color: "#94a3b8", textAlign: "center", paddingTop: 8 }}>
@@ -370,6 +462,124 @@ export default function ProfDashboard() {
             </div>
           </div>
         )}
+
+        {/* ── HORÁRIO SEMANAL ── */}
+        {tab === "semanal" && (() => {
+          const WEEK_DAYS = [
+            { label: "Seg", idx: 1 }, { label: "Ter", idx: 2 }, { label: "Qua", idx: 3 },
+            { label: "Qui", idx: 4 }, { label: "Sex", idx: 5 }, { label: "Sáb", idx: 6 },
+          ];
+          const totalSelected = Object.values(weekTemplate).flat().length;
+          return (
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              <div style={s.card}>
+                <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", marginBottom: 6 }}>
+                  Modelo Semanal
+                </h2>
+                <p style={{ fontSize: "0.83rem", color: "#64748b", marginBottom: 20 }}>
+                  Define os dias e horas que trabalhas habitualmente. Depois aplica às próximas semanas de uma vez.
+                </p>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 10 }}>
+                  {WEEK_DAYS.map(({ label, idx }) => {
+                    const selected = weekTemplate[idx] || [];
+                    return (
+                      <div key={idx} style={{ background: "#f8fafc", borderRadius: 14, padding: 12 }}>
+                        <div style={{ fontWeight: 700, fontSize: "0.85rem", color: "#1e40af", marginBottom: 10, textAlign: "center" }}>
+                          {label}
+                          {selected.length > 0 && (
+                            <span style={{ marginLeft: 6, background: "#1e40af", color: "white", borderRadius: 50, padding: "1px 6px", fontSize: "0.68rem" }}>
+                              {selected.length}
+                            </span>
+                          )}
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                          {HOURS.map(h => {
+                            const on = selected.includes(h);
+                            return (
+                              <button
+                                key={h}
+                                type="button"
+                                onClick={() => toggleTemplateHour(idx, h)}
+                                style={{
+                                  padding: "5px 0", borderRadius: 7, border: "1.5px solid",
+                                  fontSize: "0.78rem", fontWeight: 700, cursor: "pointer",
+                                  borderColor: on ? "#1e40af" : "#e2e8f0",
+                                  background: on ? "#1e40af" : "white",
+                                  color: on ? "white" : "#94a3b8",
+                                  transition: "all 0.12s",
+                                }}
+                              >
+                                {h}:00
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div style={s.card}>
+                <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", marginBottom: 16 }}>
+                  Aplicar às Próximas Semanas
+                </h2>
+                <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+                  <div>
+                    <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "#64748b", marginBottom: 6 }}>
+                      Número de semanas
+                    </label>
+                    <select
+                      value={applyWeeks}
+                      onChange={e => setApplyWeeks(Number(e.target.value))}
+                      style={{ padding: "10px 14px", borderRadius: 10, border: "1.5px solid #e2e8f0", fontSize: "0.9rem" }}
+                    >
+                      <option value={1}>1 semana</option>
+                      <option value={2}>2 semanas</option>
+                      <option value={4}>4 semanas</option>
+                      <option value={8}>8 semanas</option>
+                      <option value={12}>12 semanas</option>
+                    </select>
+                  </div>
+                  <div style={{ marginTop: 20 }}>
+                    <button
+                      onClick={applyWeekTemplate}
+                      disabled={applying || totalSelected === 0}
+                      style={{
+                        ...s.btn("#16a34a"), padding: "11px 24px", borderRadius: 10, fontSize: "0.9rem",
+                        opacity: applying || totalSelected === 0 ? 0.5 : 1,
+                        cursor: applying || totalSelected === 0 ? "default" : "pointer",
+                      }}
+                    >
+                      {applying ? "A criar horários..." : `🔁 Aplicar${totalSelected > 0 ? ` (${totalSelected} horas/semana)` : ""}`}
+                    </button>
+                  </div>
+                  {totalSelected > 0 && (
+                    <div style={{ marginTop: 20 }}>
+                      <button
+                        onClick={() => { setWeekTemplate({}); try { localStorage.removeItem("prof-week-template"); } catch {} }}
+                        style={{ background: "none", border: "none", color: "#94a3b8", cursor: "pointer", fontSize: "0.83rem" }}
+                      >
+                        Limpar modelo
+                      </button>
+                    </div>
+                  )}
+                </div>
+                {applyResult && (
+                  <p style={{
+                    marginTop: 14, fontSize: "0.85rem", fontWeight: 600,
+                    color: applyResult.startsWith("✓") ? "#16a34a" : "#dc2626",
+                  }}>
+                    {applyResult}
+                  </p>
+                )}
+                <p style={{ fontSize: "0.78rem", color: "#94a3b8", marginTop: 14 }}>
+                  Horários já existentes são ignorados automaticamente. Podes remover imprevistos na aba <strong>📅 Horários</strong> usando o ícone 🗑 no dia ou × em cada hora.
+                </p>
+              </div>
+            </div>
+          );
+        })()}
 
         {/* ── MARCAÇÕES ── */}
         {tab === "agendamentos" && (
