@@ -69,8 +69,8 @@ export default function Home() {
         <div className="nav-links">
           <a href="#sobre">Sobre</a>
           <a href="#disciplinas">Disciplinas</a>
-          <a href="#precos">Preços</a>
           <a href="#equipa">Equipa</a>
+          <a href="#precos">Preços</a>
           <a href="#faq">FAQ</a>
           <a href="/exames" style={{ fontWeight: 600 }}>Exames</a>
           <a href="#" className="btn-nav" onClick={(e) => { e.preventDefault(); }} id="nav-agendar">Agendar</a>
@@ -84,8 +84,8 @@ export default function Home() {
       <div className="mobile-nav" id="mobileNav">
         <a href="#sobre">Sobre</a>
         <a href="#disciplinas">Disciplinas</a>
-        <a href="#precos">Preços</a>
         <a href="#equipa">Equipa</a>
+        <a href="#precos">Preços</a>
         <a href="#faq">FAQ</a>
         <a href="/exames">Exames Nacionais</a>
         <a href="#" className="btn-nav-mobile" id="mobile-agendar">Agendar Explicação</a>
