@@ -15,7 +15,7 @@ const jsonLd = {
       "url": SITE_URL,
       "logo": `${SITE_URL}/icon.png`,
       "image": `${SITE_URL}/hero.png`,
-      "description": "Explicações online personalizadas do 5º ao 12º ano em Porto. Matemática, Física, Economia, MACS e Inglês com explicadores do ISEP e da FEP.",
+      "description": "Explicações online personalizadas do 5º ao 12º ano. Matemática, Física, Economia, MACS e Inglês com explicadores do ISEP e da FEP.",
       "telephone": "+351919761389",
       "email": "pratica.mais.26@gmail.com",
       "address": {
@@ -64,7 +64,7 @@ const jsonLd = {
       "@id": `${SITE_URL}/#website`,
       "url": SITE_URL,
       "name": "Pratica+",
-      "description": "Explicações online personalizadas do 5º ao 12º ano em Porto",
+      "description": "Explicações online personalizadas do 5º ao 12º ano",
       "inLanguage": "pt-PT",
       "publisher": { "@id": `${SITE_URL}/#organization` },
     },
@@ -74,11 +74,11 @@ const jsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Pratica+ | Explicações Online Porto — 5º ao 12º Ano",
+    default: "Pratica+ | Explicações Online 5º ao 12º Ano",
     template: "%s | Pratica+",
   },
   description:
-    "Explicações online personalizadas do 5º ao 12º ano em Porto. Matemática, Física, Economia, MACS e Inglês com explicadores do ISEP e da FEP. Primeira sessão com 50% desconto. Agenda já!",
+    "Explicações online personalizadas do 5º ao 12º ano. Matemática, Física, Economia, MACS e Inglês com explicadores do ISEP e da FEP. Primeira sessão com 50% desconto. Agenda já!",
   keywords: [
     "explicações porto",
     "explicadores porto",
@@ -115,7 +115,7 @@ export const metadata: Metadata = {
     locale: "pt_PT",
     url: SITE_URL,
     siteName: "Pratica+",
-    title: "Pratica+ | Explicações Online Porto — 5º ao 12º Ano",
+    title: "Pratica+ | Explicações Online 5º ao 12º Ano",
     description:
       "Explicações online personalizadas do 5º ao 12º ano. Matemática, Física, Economia, MACS e Inglês com explicadores do ISEP e da FEP. 1ª sessão com 50% desconto.",
     images: [
@@ -123,13 +123,13 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/hero.png`,
         width: 1200,
         height: 630,
-        alt: "Pratica+ — Explicações Online Personalizadas Porto",
+        alt: "Pratica+ Explicações Online Personalizadas",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pratica+ | Explicações Online Porto — 5º ao 12º Ano",
+    title: "Pratica+ | Explicações Online 5º ao 12º Ano",
     description:
       "Explicações online do 5º ao 12º ano com explicadores do ISEP e da FEP. 1ª sessão com 50% desconto.",
     images: [`${SITE_URL}/hero.png`],
