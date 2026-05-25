@@ -19,6 +19,7 @@ body {
   font-family: 'Inter', sans-serif;
   background: var(--light);
   color: var(--dark);
+  overflow-x: hidden;
 }
 
 /* ─── SCROLLBAR ─── */
@@ -215,6 +216,8 @@ body {
   line-height: 1.1;
   letter-spacing: -2px;
   margin-bottom: 24px;
+  overflow-wrap: break-word;
+  word-break: break-word;
   background: linear-gradient(135deg, #ffffff 0%, #bfdbfe 60%, #93c5fd 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -1091,13 +1094,21 @@ footer {
   section { padding: 64px 5%; }
 
   /* Hero */
-  .hero-inner { padding: 80px 5% 64px; }
-  .hero-split { grid-template-columns: 1fr; gap: 40px; }
+  .hero-inner { padding: 90px 6% 64px; }
+  .hero-split { grid-template-columns: 1fr; gap: 36px; }
   .hero-text { text-align: center; }
   .hero-text p { margin-left: auto; margin-right: auto; }
   .hero-text .hero-ctas { justify-content: center; }
-  .hero p { font-size: 1.05rem; }
-  .stat-number { font-size: 1.7rem; }
+  .hero h1 { font-size: clamp(1.85rem, 7.5vw, 2.8rem); letter-spacing: -1.5px; }
+  .hero p { font-size: 1rem; max-width: 100%; }
+  .hero-badge { font-size: 0.72rem; padding: 5px 13px; }
+  .hero-ctas { flex-direction: column; align-items: stretch; gap: 12px; }
+  .hero-ctas .btn-primary, .hero-ctas .btn-secondary { text-align: center; justify-content: center; padding: 14px 24px; }
+  .hero-stats-panel { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .hero-stat-card { padding: 18px 12px; }
+  .stat-number { font-size: 1.6rem; }
+  .stat-label { font-size: 0.75rem; }
+  .hero-micro { font-size: 0.7rem; }
 
   /* Sobre */
   .sobre-grid { gap: 16px; }
@@ -1146,16 +1157,11 @@ footer {
   section { padding: 48px 4%; }
 
   /* Hero */
-  .hero-inner { padding: 60px 4% 48px; }
-  .hero h1 { letter-spacing: -1px; }
-  .hero p { font-size: 0.97rem; }
-  .hero-stats-panel { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .hero-stat-card { padding: 20px 14px; }
-  .hero-ctas { flex-direction: column; align-items: stretch; gap: 12px; }
-  .hero-ctas .btn-primary, .hero-ctas .btn-secondary { text-align: center; justify-content: center; padding: 14px 24px; }
-  .hero-stats { gap: 12px; }
-  .stat { min-width: calc(50% - 6px); }
-  .stat-number { font-size: 1.5rem; }
+  .hero-inner { padding: 70px 5% 48px; }
+  .hero h1 { font-size: clamp(1.75rem, 8vw, 2.2rem); letter-spacing: -1px; }
+  .hero p { font-size: 0.92rem; }
+  .hero-stat-card { padding: 16px 10px; }
+  .stat-number { font-size: 1.4rem; }
 
   /* Sobre */
   .sobre-card { padding: 28px 20px; }

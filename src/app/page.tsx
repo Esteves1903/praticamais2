@@ -137,9 +137,9 @@ export default function Home() {
       {/* ─── SOBRE ─── */}
       <section id="sobre" style={{ background: "white" }}>
         <div className="section-header">
-          <span className="section-label">A Nossa Identidade</span>
-          <h2 className="section-title">Quem Somos, Missão e Valores</h2>
-          <p className="section-sub">Acreditamos que todos os alunos têm potencial para alcançar o sucesso escolar com o apoio certo.</p>
+          <span className="section-label">Explicações Online em Portugal</span>
+          <h2 className="section-title">Quem Somos e Como Funcionamos</h2>
+          <p className="section-sub">A Pratica+ oferece explicações online personalizadas do 5º ao 12º ano — acessíveis a qualquer aluno em Portugal.</p>
         </div>
         <div className="sobre-grid">
           <div className="sobre-card fade-in">
@@ -163,9 +163,9 @@ export default function Home() {
       {/* ─── DISCIPLINAS ─── */}
       <section id="disciplinas" style={{ background: "#f8fafc" }}>
         <div className="section-header">
-          <span className="section-label">O Que Ensinamos</span>
-          <h2 className="section-title">Disciplinas Disponíveis</h2>
-          <p className="section-sub">Cobertura completa das disciplinas mais exigidas do ensino básico e secundário.</p>
+          <span className="section-label">Explicações Online de Matemática, Física, MACS e mais</span>
+          <h2 className="section-title">Disciplinas com Explicações Online</h2>
+          <p className="section-sub">Cobertura completa das disciplinas mais exigidas. Todas as explicações são online, ao vivo, em sessão individual.</p>
         </div>
         <div className="disciplinas-grid" id="disciplinasGrid">
           <div className="disciplina-card mat fade-in" data-nivel="ambos">
@@ -280,9 +280,9 @@ export default function Home() {
       {/* ─── EQUIPA ─── */}
       <section id="equipa" style={{ background: "#f8fafc" }}>
         <div className="section-header">
-          <span className="section-label">A Nossa Equipa</span>
-          <h2 className="section-title">Os Teus Explicadores</h2>
-          <p className="section-sub">Estudantes universitários dedicados a ajudar-te a alcançar os teus objetivos.</p>
+          <span className="section-label">Professores de Explicações Online</span>
+          <h2 className="section-title">Os Teus Explicadores Online</h2>
+          <p className="section-sub">Estudantes do ISEP e da FEP especializados em explicações online de Matemática, Física, MACS, Economia e Inglês.</p>
         </div>
         <div className="team-grid">
           <div className="member-card fade-in">
@@ -452,9 +452,9 @@ export default function Home() {
       {/* ─── FAQ ─── */}
       <section id="faq" style={{ background: "white" }}>
         <div className="section-header">
-          <span className="section-label">FAQ</span>
-          <h2 className="section-title">Perguntas Frequentes</h2>
-          <p className="section-sub">Tudo o que precisas de saber antes de agendar a tua primeira sessão.</p>
+          <span className="section-label">FAQ — Explicações Online</span>
+          <h2 className="section-title">Perguntas Frequentes sobre as Explicações Online</h2>
+          <p className="section-sub">Tudo o que precisas de saber sobre as nossas explicações online antes de agendares a tua primeira sessão.</p>
         </div>
         <div className="faq-list">
           {[
